@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget xmlns:cdv="http://cordova.apache.org/ns/1.0" id="com.example.movileproject" version="1.0.0"
+    xmlns="http://www.w3.org/ns/widgets">
+    <name>MovileProject</name>
+    <description>Sample Apache Cordova App</description>
+    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <platform name="android">
+        <icon density="mdpi" src="platforms/android/app/src/main/res/drawable-mdpi/icon.png" />
+        <icon density="hdpi" src="platforms/android/app/src/main/res/drawable-hdpi/icon.png" />
+        <icon density="xhdpi" src="platforms/android/app/src/main/res/drawable-xhdpi/icon.png" />
+        <icon density="xxhdpi" src="platforms/android/app/src/main/res/drawable-xxhdpi/icon.png" />
+        <icon density="xxxhdpi"
+            src="platforms/android/app/src/main/res/drawable-xxxhdpi/icon.png" />
+    </platform>
+</widget>
