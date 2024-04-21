@@ -27,14 +27,10 @@ function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
 }
-document.addEventListener('init', function(event) {
-  var page = event.target;
 
-  if (page.id === 'page1') {
-    page.querySelector('#push-button').onclick = function() {
-      document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Page 2'}});
+function redireccionar() {
+  if (page.id === 'inicio') {
+    winwos.location.href = 'mapa.html';
     };
-  } else if (page.id === 'page2') {
-    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
-  }
-});
+};
+

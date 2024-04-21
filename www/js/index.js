@@ -27,14 +27,15 @@ function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
 }
+
 document.addEventListener('init', function(event) {
   var page = event.target;
 
-  if (page.id === 'page1') {
+  if (page.id === 'inicio') {
     page.querySelector('#push-button').onclick = function() {
-      document.querySelector('#myNavigator').pushPage('page2.html', {data: {title: 'Page 2'}});
+      document.querySelector('#myNavigator').pushPage('mapa.html', {data: {title: 'Mapa'}}); // Pasar el título de la página como datos. Y navegar a la página.
     };
-  } else if (page.id === 'page2') {
-    page.querySelector('ons-toolbar .center').innerHTML = page.data.title;
+  } else if (page.id === 'mapa') {
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title; // Actulizar el título de la página con el título pasado en el evento data.
   }
 });
