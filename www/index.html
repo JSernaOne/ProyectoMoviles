@@ -28,10 +28,10 @@
         * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
             * Enable inline JS: add 'unsafe-inline' to default-src
     -->
-    <meta
+   <!-- <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
-    />
+    />-->
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta
@@ -44,6 +44,10 @@
 
     <link rel="stylesheet" href="css/onsenui-core.min.css" />
     <link rel="stylesheet" href="css/onsen-css-components.min.css" />
+    <link rel="stylesheet" href="assetsFile/tabla.css" />
+
+    <!--Bootstrap-->
+
   </head>
   <body>
     <ons-navigator
@@ -68,12 +72,34 @@
           <div class="left"><ons-back-button>Home</ons-back-button></div>
           <div class="center"></div>
         </ons-toolbar>
-
+        <ons-button id="push-tabla" style="margin-left: 10px; margin:10px" onclick="obtenerGeolocalizacion()">Obtener Localización</ons-button>
+        <table class="table table-hover" style="margin-left: 10px; margin:10px">
+          <caption style="margin:10px">Tabla de Geolocalización</caption>
+          <thead>
+          <tr>
+            <th>Latitud</th>
+            <th>Longitud</th>
+            <th>Altitud</th>
+            <th>Exactitud</th>
+            <th>Altitud Exacta</th>
+            <th>Velocidad</th>
+            <th>Rumbo</th>
+            <th>Marca de Tiempo</th>
+          </tr>
+          </thead>
+          <tbody id="tabla">
+          </tbody>
+        </table>
       </ons-page>
     </template>
 
     <script src="cordova.js"></script>
     <script src="js/index.js"></script>
     <script src="js/onsenui.min.js"></script>
+
+    <!--Bootstrap-->
+
+    <script src="js/geolocalizacion.js"></script>
+
   </body>
 </html>

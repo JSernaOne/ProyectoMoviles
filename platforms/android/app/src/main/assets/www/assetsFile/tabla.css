@@ -1,0 +1,15 @@
+  table{
+            border-collapse: collapse;
+        }
+        table, td, th {
+            border: 2px solid orange;
+            padding:20px;
+        }
+        button{
+            color:white;
+            font-weight:bold;
+            background-color:orange;
+            width:100px;
+            height:25px;
+            font-size:15px;
+        }
