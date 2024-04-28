@@ -13,9 +13,19 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
       "pluginId": "cordova-plugin-geolocation",
       "runs": true
+    },
+    {
+      "id": "cordova-sqlite-storage.SQLitePlugin",
+      "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+      "pluginId": "cordova-sqlite-storage",
+      "clobbers": [
+        "SQLitePlugin"
+      ]
     }
   ];
   module.exports.metadata = {
-    "cordova-plugin-geolocation": "5.0.0"
+    "cordova-plugin-geolocation": "5.0.0",
+    "cordova-plugin-vibration": "3.1.1",
+    "cordova-sqlite-storage": "6.1.1-dev"
   };
 });

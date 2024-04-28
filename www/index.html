@@ -18,8 +18,8 @@
     under the License.
 -->
 <html>
-  <head>
-    <meta charset="utf-8" />
+<head>
+    <meta charset="utf-8"/>
     <!--
     Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
         https://cordova.apache.org/docs/en/latest/
@@ -28,78 +28,93 @@
         * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
             * Enable inline JS: add 'unsafe-inline' to default-src
     -->
-   <!-- <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
-    />-->
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- <meta
+       http-equiv="Content-Security-Policy"
+       content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
+     />-->
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
     <meta
-      name="viewport"
-      content="initial-scale=1, width=device-width, viewport-fit=cover"
+            name="viewport"
+            content="initial-scale=1, width=device-width, viewport-fit=cover"
     />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light dark"/>
 
     <title>MovileProject</title>
 
-    <link rel="stylesheet" href="css/onsenui-core.min.css" />
-    <link rel="stylesheet" href="css/onsen-css-components.min.css" />
-    <link rel="stylesheet" href="assetsFile/tabla.css" />
+    <link rel="stylesheet" href="css/onsenui-core.min.css"/>
+    <link rel="stylesheet" href="css/onsen-css-components.min.css"/>
+    <link rel="stylesheet" href="assetsFile/tabla.css"/>
 
     <!--Bootstrap-->
 
-  </head>
-  <body>
-    <ons-navigator
-      swipeable
-      id="myNavigator"
-      page="inicio.html"
-    ></ons-navigator>
+</head>
+<body>
+<ons-navigator
+        swipeable
+        id="myNavigator"
+        page="inicio.html"
+></ons-navigator>
 
-    <template id="inicio.html">
-      <ons-page id="inicio">
+<template id="inicio.html">
+    <ons-page id="inicio">
         <ons-toolbar>
-          <div class="center">Home</div>
+            <div class="center">Home</div>
         </ons-toolbar>
         <p style="margin-left: 10px;">Métodos</p>
         <ons-button id="push-button" style="margin-left: 10px;">Localización</ons-button>
-      </ons-page>
-    </template>
+        <ons-button id="connect" style="margin-left: 10px;">Test</ons-button>
+    </ons-page>
+</template>
 
-    <template id="mapa.html">
-      <ons-page id="mapa">
+<template id="mapa.html">
+    <ons-page id="mapa">
         <ons-toolbar>
-          <div class="left"><ons-back-button>Home</ons-back-button></div>
-          <div class="center"></div>
+            <div class="left">
+                <ons-back-button>Home</ons-back-button>
+            </div>
+            <div class="center"></div>
         </ons-toolbar>
-        <ons-button id="push-tabla" style="margin-left: 10px; margin:10px" onclick="obtenerGeolocalizacion()">Obtener Localización</ons-button>
+        <ons-button id="push-tabla" style="margin-left: 10px; margin:10px" onclick="todos()">Obtener
+            Localización
+        </ons-button>
         <table class="table table-hover" style="margin-left: 10px; margin:10px">
-          <caption style="margin:10px">Tabla de Geolocalización</caption>
-          <thead>
-          <tr>
-            <th>Latitud</th>
-            <th>Longitud</th>
-            <th>Altitud</th>
-            <th>Exactitud</th>
-            <th>Altitud Exacta</th>
-            <th>Velocidad</th>
-            <th>Rumbo</th>
-            <th>Marca de Tiempo</th>
-          </tr>
-          </thead>
-          <tbody id="tabla">
-          </tbody>
+            <caption style="margin:10px">Tabla de Geolocalización</caption>
+            <thead>
+            <tr>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Altitud</th>
+                <th>Exactitud</th>
+                <th>Altitud Exacta</th>
+                <th>Velocidad</th>
+                <th>Rumbo</th>
+                <th>Marca de Tiempo</th>
+            </tr>
+            </thead>
+            <tbody id="tabla">
+            </tbody>
         </table>
-      </ons-page>
-    </template>
+    </ons-page>
+</template>
 
-    <script src="cordova.js"></script>
-    <script src="js/index.js"></script>
-    <script src="js/onsenui.min.js"></script>
+<script src="cordova.js"></script>
+<script src="js/index.js"></script>
+<script src="js/onsenui.min.js"></script>
 
-    <!--Bootstrap-->
+<!--Bootstrap-->
 
-    <script src="js/geolocalizacion.js"></script>
+<script src="js/geolocalizacion.js"></script>
+<script src="js/vibracion.js"></script>
+<script src="js/myBD.js"></script>
 
-  </body>
+<script>
+    function todos(){
+        obtenerGeolocalizacion();
+        vibrar();
+    }
+</script>
+
+
+</body>
 </html>
