@@ -28,9 +28,14 @@ function onDeviceReady() {
     document.getElementById('deviceready').classList.add('ready');
 }
 
-function redireccionar() {
-  if (page.id === 'inicio') {
-    winwos.location.href = 'mapa.html';
-    };
-};
+document.addEventListener('init', function(event) {
+  var page = event.target;
 
+  if (page.id === 'inicio') {
+    page.querySelector('#push-button').onclick = function() {
+      document.querySelector('#myNavigator').pushPage('mapa.html', {data: {title: 'Mapa'}}); // Pasar el título de la página como datos. Y navegar a la página.
+    };
+  } else if (page.id === 'mapa') {
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title; // Actulizar el título de la página con el título pasado en el evento data.
+  }
+});
