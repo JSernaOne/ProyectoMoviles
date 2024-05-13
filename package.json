@@ -14,6 +14,8 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "cordova-android": "^12.0.1",
+    "cordova-browser": "^7.0.0",
+    "cordova-ios": "^7.1.0",
     "cordova-plugin-device": "^2.1.0",
     "cordova-plugin-geolocation": "^5.0.0",
     "cordova-plugin-vibration": "^3.1.1",
@@ -21,7 +23,9 @@
   },
   "cordova": {
     "platforms": [
-      "android"
+      "android",
+      "ios",
+      "browser"
     ],
     "plugins": {
       "cordova-plugin-geolocation": {
