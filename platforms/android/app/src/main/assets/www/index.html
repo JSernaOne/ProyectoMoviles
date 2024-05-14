@@ -1,68 +1,73 @@
-<!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <!--
-    Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
-        https://cordova.apache.org/docs/en/latest/
-    Some notes:
-        * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-        * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-            * Enable inline JS: add 'unsafe-inline' to default-src
-    -->
-    <meta http-equiv="Content-Security-Policy"
-          content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
-    <meta name="color-scheme" content="light dark">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta
+          http-equiv="Content-Security-Policy"
+          content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
+  />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+  <meta
+          name="viewport"
+          content="initial-scale=1, width=device-width, viewport-fit=cover"
+  />
 
-    <title>MovileProject</title>
+  <link rel="stylesheet" href="css/onsenui-core.min.css" />
+  <link rel="stylesheet" href="css/onsen-css-components.min.css" />
+  <link rel="stylesheet" href="assetsFile/tabla.css" />
 
-    <link rel="stylesheet" href="css/onsenui-core.min.css">
-    <link rel="stylesheet" href="css/onsen-css-components.min.css">
+  <title>MovileProyect</title>
+
 </head>
-<body>
+  <body>
+      <ons-page>
+        <div class="contenedor">
+          <div class="perfil">
+            <div class="fecha"></div>
+            <h1>Hola, George</h1>
+            <span>Vamos a cumplir tus metas</span>
+            <p></p>
+            <input name="Agregar Tarea"  placeholder="Agregar Tarea...">
+            <ons-fab>
+              <ion-icon name="add"></ion-icon>
+            </ons-fab>
+          </div>
 
-<ons-navigator swipeable id="myNavigator" page="inicio.html"></ons-navigator>
+        <ons-list>
+          <ons-list-header>Lista de tareas</ons-list-header>
+          <ons-list>
+            <ons-list-item tappable>
+              <label class="left">
+                <ons-checkbox input-id="check-1"></ons-checkbox>
+              </label>
+              <label class="center">
+                Apple
+              </label>
+            </ons-list-item>
+            <ons-list-item tappable>
+              <label class="left">
+                <ons-checkbox input-id="check-2"></ons-checkbox>
+              </label>
+              <label class="center">
+                Banana
+              </label>
+            </ons-list-item>
+            <section style="padding: 8px">
+              <ons-button >mapa</ons-button>
+              <ons-button >perfil</ons-button>
+            </section>
+          </ons-list>
+        </ons-list>
+        </div>
+      </ons-page>
 
-<template id="inicio.html">
-    <ons-page id="inicio">
-        <ons-toolbar>
-            <div class="center">Home</div>
-        </ons-toolbar>
-
-        <ons-button id="push-button" onclick="redireccionar()">Push page</ons-button>
-    </ons-page>
-</template>
-
-</template>
-<script>
-    function redireccionar() {
-// Redirige a la otra página
-window.location.href = 'mapa.html';
-};
-</script>
-<script src="cordova.js"></script>
-<script src="js/index.js"></script>
-<script src="js/onsenui.min.js"></script>
-</body>
+    <script src="cordova.js"></script>
+    <script src="js/inicio.js"></script>
+    <script src="js/onsenui.min.js"></script>
+  </body>
 </html>
+

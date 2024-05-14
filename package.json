@@ -13,12 +13,18 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "devDependencies": {
-    "cordova-android": "^12.0.1"
+    "cordova-android": "^12.0.1",
+    "cordova-plugin-vibration": "^3.1.1",
+    "cordova-sqlite-storage": "^6.1.0"
   },
   "cordova": {
     "platforms": [
       "android"
-    ]
+    ],
+    "plugins": {
+      "cordova-plugin-vibration": {},
+      "cordova-sqlite-storage": {}
+    }
   },
   "dependencies": {
     "onsenui": "^2.12.8"
