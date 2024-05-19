@@ -37,6 +37,7 @@
     }
   },
   "dependencies": {
+    "js-sha256": "^0.11.0",
     "onsenui": "^2.12.8"
   }
 }
