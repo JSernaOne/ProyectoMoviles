@@ -37,11 +37,11 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"io.sqlc.SQLitePlugin\" /></feature>",
+              "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+              "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"io.sqlc.SQLitePlugin\" /></feature>",
               "count": 1
             }
           ]
@@ -57,10 +57,10 @@
     "cordova-plugin-vibration": {
       "PACKAGE_NAME": "com.example.movileproject"
     },
-    "cordova-sqlite-storage": {
+    "cordova-plugin-device": {
       "PACKAGE_NAME": "com.example.movileproject"
     },
-    "cordova-plugin-device": {
+    "cordova-sqlite-storage": {
       "PACKAGE_NAME": "com.example.movileproject"
     }
   },
@@ -81,26 +81,26 @@
       "runs": true
     },
     {
-      "id": "cordova-sqlite-storage.SQLitePlugin",
-      "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
-      "pluginId": "cordova-sqlite-storage",
-      "clobbers": [
-        "SQLitePlugin"
-      ]
-    },
-    {
       "id": "cordova-plugin-device.device",
       "file": "plugins/cordova-plugin-device/www/device.js",
       "pluginId": "cordova-plugin-device",
       "clobbers": [
         "device"
       ]
+    },
+    {
+      "id": "cordova-sqlite-storage.SQLitePlugin",
+      "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+      "pluginId": "cordova-sqlite-storage",
+      "clobbers": [
+        "SQLitePlugin"
+      ]
     }
   ],
   "plugin_metadata": {
     "cordova-plugin-geolocation": "5.0.0",
     "cordova-plugin-vibration": "3.1.1",
-    "cordova-sqlite-storage": "6.1.0",
-    "cordova-plugin-device": "2.1.0"
+    "cordova-plugin-device": "2.1.0",
+    "cordova-sqlite-storage": "6.1.0"
   }
 }

@@ -18,8 +18,8 @@
     under the License.
 -->
 <html>
-<head>
-    <meta charset="utf-8"/>
+  <head>
+    <meta charset="utf-8" />
     <!--
     Customize this policy to fit your own app's needs. For more guidance, please refer to the docs:
         https://cordova.apache.org/docs/en/latest/
@@ -32,182 +32,189 @@
     http-equiv="Content-Security-Policy"
     content="default-src 'self' data: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"
     />-->
-    <meta name="format-detection" content="telephone=no"/>
-    <meta name="msapplication-tap-highlight" content="no"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
     <meta
-            name="viewport"
-            content="initial-scale=1, width=device-width, viewport-fit=cover"
+      name="viewport"
+      content="initial-scale=1, width=device-width, viewport-fit=cover"
     />
-    <meta name="color-scheme" content="light dark"/>
+    <meta name="color-scheme" content="light dark" />
 
     <title>MovileProject</title>
 
-    <link rel="stylesheet" href="lib/onsenui/css/onsenui-core.min.css"/>
-    <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.min.css"/>
+    <link rel="stylesheet" href="lib/onsenui/css/onsenui-core.min.css" />
+    <link
+      rel="stylesheet"
+      href="lib/onsenui/css/onsen-css-components.min.css"
+    />
 
+    <script src="lib/js-sha256/build/sha256.min.js"></script>
     <script src="js/myBD.js"></script>
-</head>
-<body>
-<ons-navigator
-        swipeable
-        id="myNavigator"
-        page="inicio.html"
-></ons-navigator>
+    
+  </head>
+  <body>
+    <ons-navigator
+      swipeable
+      id="myNavigator"
+      page="inicio.html"
+    ></ons-navigator>
 
-<template id="inicio.html">
-    <ons-page id="inicio">
+    <template id="inicio.html">
+      <ons-page id="inicio">
         <ons-toolbar>
-            <div class="center">Ingreso</div>
+          <div class="center">Ingreso</div>
         </ons-toolbar>
         <div style="text-align: center; margin-top: 30px">
-            <p>
-                <ons-input
-                        id="username"
-                        modifier="underbar"
-                        placeholder="Username"
-                        float
-                ></ons-input>
-            </p>
-            <p>
-                <ons-input
-                        id="password"
-                        modifier="underbar"
-                        type="password"
-                        placeholder="Password"
-                        float
-                ></ons-input>
-            </p>
-            <p style="margin-top: 30px">
-                <ons-button id="login-button">Ingresar</ons-button>
-            </p>
-            <p style="margin-top: 20px">
-                <ons-button id="push-registro">Registrarse</ons-button>
-            </p>
-            <p style="margin-top: 20px">
-                <ons-button id="push-consultas">Consultas</ons-button>
-            </p>
+          <p>
+            <ons-input
+              id="username"
+              modifier="underbar"
+              placeholder="Username"
+              float
+            ></ons-input>
+          </p>
+          <p>
+            <ons-input
+              id="password"
+              modifier="underbar"
+              type="password"
+              placeholder="Password"
+              float
+            ></ons-input>
+          </p>
+          <p style="margin-top: 30px">
+            <ons-button id="login-button">Ingresar</ons-button>
+          </p>
+          <p style="margin-top: 20px">
+            <ons-button id="push-registro">Registrarse</ons-button>
+          </p>
+          <p style="margin-top: 20px">
+            <ons-button id="push-consultas">Consultas</ons-button>
+          </p>
         </div>
         <p style="margin-top: 20px; margin-left: 10px">
-            <ons-button id="show-users">Mostrar Usuarios</ons-button>
+          <ons-button id="show-users">Mostrar Usuarios</ons-button>
         </p>
         <ons-list
-                id="users-list"
-                style="margin-left: 10px; margin-top: 20px; margin-right: 10px"
+          id="users-list"
+          style="margin-left: 10px; margin-top: 20px; margin-right: 10px"
         >
-            <ons-list-header>Usuarios</ons-list-header>
+          <ons-list-header>Usuarios</ons-list-header>
         </ons-list>
-    </ons-page>
-</template>
+      </ons-page>
+    </template>
 
-<template id="registro.html">
-    <ons-page id="registro">
+    <template id="registro.html">
+      <ons-page id="registro">
         <ons-toolbar>
-            <div class="left">
-                <ons-back-button>Inicio</ons-back-button>
-            </div>
-            <div class="center"></div>
+          <div class="left">
+            <ons-back-button>Inicio</ons-back-button>
+          </div>
+          <div class="center"></div>
         </ons-toolbar>
         <div style="text-align: center; margin-top: 30px">
-            <p>
-                <ons-input
-                        id="nombre"
-                        modifier="underbar"
-                        placeholder="Nombre"
-                        float
-                        data-type="text"
-                        minlength="3"
-                        maxlength="50"
-                ></ons-input>
-            </p>
+          <p>
+            <ons-input
+              id="nombre"
+              modifier="underbar"
+              placeholder="Nombre"
+              float
+              data-type="text"
+              minlength="3"
+              maxlength="50"
+            ></ons-input>
+          </p>
 
-            <p>
-                <ons-input
-                        id="username_register"
-                        modifier="underbar"
-                        placeholder="Username"
-                        float
-                        data-type="text"
-                        minlength="3"
-                        maxlength="32"
-                ></ons-input>
-            </p>
-            <p>
-                <ons-input
-                        id="correo"
-                        modifier="underbar"
-                        placeholder="Correo"
-                        float
-                        data-type="email"
-                        minlength="3"
-                        maxlength="70"
-                ></ons-input>
-            </p>
-            <p>
-                <ons-input
-                        id="contrasena"
-                        modifier="underbar"
-                        type="password"
-                        placeholder="Contrasena"
-                        float
-                ></ons-input>
-            </p>
-            <p>
-                <ons-input
-                        id="telefono"
-                        modifier= "underbar"
-                        placeholder="Telefono"
-                        float
-                        data-type="tel"
-                        minlength="10"
-                        maxlength="10"
-                ></ons-input>
-            </p>
-            <p>
-                <ons-button id="registro-button">Registrarse</ons-button>
-            </p>
-            <p>
-                <ons-button id="actualizar-button">Actualizar</ons-button>
-            </p>
+          <p>
+            <ons-input
+              id="username_register"
+              modifier="underbar"
+              placeholder="Username"
+              float
+              data-type="text"
+              minlength="3"
+              maxlength="32"
+            ></ons-input>
+          </p>
+          <p>
+            <ons-input
+              id="correo"
+              modifier="underbar"
+              placeholder="Correo"
+              float
+              data-type="email"
+              minlength="3"
+              maxlength="70"
+            ></ons-input>
+          </p>
+          <p>
+            <ons-input
+              id="contrasena"
+              modifier="underbar"
+              type="password"
+              placeholder="Contrasena"
+              float
+            ></ons-input>
+          </p>
+          <p>
+            <ons-input
+              id="telefono"
+              modifier="underbar"
+              placeholder="Telefono"
+              float
+              data-type="tel"
+              minlength="10"
+              maxlength="10"
+            ></ons-input>
+          </p>
+          <p>
+            <ons-button id="registro-button">Registrarse</ons-button>
+          </p>
+          <p>
+            <ons-button id="actualizar-button">Actualizar</ons-button>
+          </p>
         </div>
-    </ons-page>
-</template>
+      </ons-page>
+    </template>
 
-<template id="consultas.html">
-    <ons-page id="consultas">
+    <template id="consultas.html">
+      <ons-page id="consultas">
         <ons-toolbar>
-            <div class="left">
-                <ons-back-button>Inicio</ons-back-button>
-            </div>
-            <div class="center">Consultas</div>
+          <div class="left">
+            <ons-back-button>Inicio</ons-back-button>
+          </div>
+          <div class="center">Consultas</div>
         </ons-toolbar>
         <div style="text-align: center; margin-top: 30px">
-            <p>
-                <ons-input
-                        id="correo_consulta"
-                        modifier="underbar"
-                        placeholder="Correo"
-                        float
-                ></ons-input>
-            </p>
-            <p style="margin-top: 30px">
-                <ons-button id="consulta-button">Consultar</ons-button>
-            </p>
-            <p style="margin-top: 20px">
-                <ons-button id="eliminar-button">Eliminar</ons-button>
+          <p>
+            <ons-input
+              id="correo_consulta"
+              modifier="underbar"
+              placeholder="Correo"
+              float
+            ></ons-input>
+          </p>
+          <p style="margin-top: 30px">
+            <ons-button id="consulta-button">Consultar</ons-button>
+          </p>
+          <p style="margin-top: 20px">
+            <ons-button id="eliminar-button">Eliminar</ons-button>
+          </p>
         </div>
+
         <ons-list
-                id="consultas-list"
-                style="margin-left: 10px; margin-top: 20px; margin-right: 10px"
+          id="consultas-list"
+          style="margin-left: 10px; margin-top: 20px; margin-right: 10px"
         >
-            <ons-list-header>Consultas</ons-list-header>
+          <ons-list-header>Consultas</ons-list-header>
         </ons-list>
-    </ons-page>
-</template>
+      </ons-page>
+    </template>
 
-<script src="cordova.js"></script>
-<script src="js/index.js"></script>
-<script src="lib/onsenui/js/onsenui.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
+    <script src="lib/onsenui/js/onsenui.min.js"></script>
 
-<script src="js/login.js"></script>
-</body>
+    <script src="js/login.js"></script>
+  </body>
 </html>

@@ -32,8 +32,8 @@
         "GPS_REQUIRED": "true"
       },
       "cordova-plugin-vibration": {},
-      "cordova-sqlite-storage": {},
-      "cordova-plugin-device": {}
+      "cordova-plugin-device": {},
+      "cordova-sqlite-storage": {}
     }
   },
   "dependencies": {

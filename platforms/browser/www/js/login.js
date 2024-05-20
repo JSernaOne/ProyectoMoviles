@@ -157,18 +157,11 @@ function validateEmail(email) {
 
 //validar numero de telefono
 function validatePhone(phone) {
-  if (phone.length > 10) {
+  if (phone.length < 10) {
     return false;
   }
   const pattern = /^[0-9]+$/; // Expresión regular para validar solo números
   return pattern.test(phone);
-}
-
-// limpiar campos del formulario
-function clearForm(fields) {
-  fields.forEach((field) => {
-    field.value = " ";
-  });
 }
 
 // evento de inicialización de la aplicación con Onsen UI para cargar las páginas de la aplicación
