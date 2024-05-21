@@ -157,7 +157,7 @@ function validateEmail(email) {
 
 //validar numero de telefono
 function validatePhone(phone) {
-  if (phone.length > 10) {
+  if (phone.length < 10) {
     return false;
   }
   const pattern = /^[0-9]+$/; // Expresión regular para validar solo números
