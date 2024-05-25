@@ -16,7 +16,9 @@
     "cordova-android": "^12.0.1",
     "cordova-browser": "^7.0.0",
     "cordova-ios": "^7.1.0",
+    "cordova-plugin-advanced-http": "^3.3.1",
     "cordova-plugin-device": "^2.1.0",
+    "cordova-plugin-file": "^8.0.1",
     "cordova-plugin-geolocation": "^5.0.0",
     "cordova-plugin-vibration": "^3.1.1",
     "cordova-sqlite-storage": "^6.1.0"
@@ -33,7 +35,10 @@
       },
       "cordova-plugin-vibration": {},
       "cordova-plugin-device": {},
-      "cordova-sqlite-storage": {}
+      "cordova-sqlite-storage": {},
+      "cordova-plugin-advanced-http": {
+        "ANDROIDBLACKLISTSECURESOCKETPROTOCOLS": "SSLv3,TLSv1"
+      }
     }
   },
   "dependencies": {
