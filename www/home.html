@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo App</title>
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css">
+    <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script>
+    <script src="js/home.js" defer></script>
+</head>
+<body>
+<ons-page>
+    <ons-toolbar>
+        <div class="center">Todo App</div>
+    </ons-toolbar>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <h3 id="welcome-message">Bienvenido</h3>
+        <p id="motivational-quote">Frase Motivacional</p>
+        <p id="current-date">Fecha Actual</p>
+        <ons-button id="add-task-button">Agregar tarea</ons-button>
+    </div>
+
+    <ons-list id="task-list">
+        <!-- Lista de tareas -->
+    </ons-list>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <ons-button onclick="navigateTo('ubicacion.html')">Ubicación</ons-button>
+        <ons-button onclick="navigateTo('editar.html')">Editar</ons-button>
+        <ons-button onclick="navigateTo('volver.html')">Volver</ons-button>
+    </div>
+</ons-page>
+
+<!-- Template for adding a new task -->
+<ons-template id="add-task-dialog">
+    <ons-dialog id="dialog">
+        <div style="text-align: center; padding: 10px;">
+            <p>
+                <ons-input id="new-task-input" placeholder="Nueva tarea" float></ons-input>
+            </p>
+            <p>
+                <ons-button onclick="addTask()">Agregar</ons-button>
+                <ons-button onclick="hideDialog()">Cancelar</ons-button>
+            </p>
+        </div>
+    </ons-dialog>
+</ons-template>
+</body>
+</html>
