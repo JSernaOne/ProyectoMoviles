@@ -1,214 +1,89 @@
-// impiortar la base de datos en el archivo login.js para poder hacer uso de ella
-importScripts("myBD.js");
+// registrar usuarios
+function registerUser(name, username, email, password, phone) {
+  var salt = generateSalt(); // Generar una sal aleatoria
+  var hashedPassword = hashPassword(password, salt); // Aplicar hash a la contraseña + sal*/
 
-document.addEventListener("deviceready", onDeviceReady, false);
-
-function register() {
-  var name = getValue("nombre");
-  var email = getValue("correo");
-  var username = getValue("username_register");
-  var password = getValue("contrasena");
-  var phone = getValue("telefono");
-
-  if (!validateFields([name, email, username, password, phone])) {
-    ons.notification.alert("Por favor llene todos los campos.");
+  // validar campos
+  if (!validateFields([name, username, email, password, phone])) {
+    ons.notification.alert("Por favor complete todos los campos.");
+    return;
+  } else if (!validateName(name)) {
+    ons.notification.alert("El nombre solo debe contener letras.");
+    return;
+  } else if (!validateEmail(email)) {
+    ons.notification.alert("Por favor ingrese un email válido.");
+    return;
+  } else if (!validatePhone(phone)) {
+    ons.notification.alert(
+      "El teléfono solo debe contener números y máximo 10 digitos."
+    );
     return;
   }
 
-  var db = openDatabase();
-
   db.transaction(function (tx) {
     tx.executeSql(
-      "SELECT * FROM users WHERE email = ?",
-      [email],
+      "SELECT * FROM User WHERE username = ? OR email = ? OR phone = ?",
+      [username, email, phone],
       function (tx, res) {
-        if (res.rows.length === 0) {
-          // El correo no está en uso, se puede registrar el usuario
+        if (res.rows.length > 0) {
+          ons.notification.alert(
+            "El username, email o teléfono ya están registrados."
+          );
+        } else {
+          var salt = generateSalt();
+          var hashedPassword = hashPassword(password, salt);
+
+          // Insertar nuevo usuario
           tx.executeSql(
-            "INSERT INTO users (name, email, username, password, phone) VALUES (?, ?, ?, ?, ?)",
-            [name, email, username, password, phone],
+            "INSERT INTO User (name, email, username, password, salt, phone) VALUES (?, ?, ?, ?, ?, ?)",
+            [name, email, username, hashedPassword, salt, phone],
             function (tx, res) {
               ons.notification.alert("Usuario registrado exitosamente.");
-              limpiarCampos();
             },
             function (tx, error) {
-              ons.notification.alert("Error registrando usuario: " + error.message);
+              ons.notification.alert(
+                "Error registrando usuario: " + error.message
+              );
             }
           );
-        } else {
-          ons.notification.alert("Correo ya registrado. Por favor ingrese otro.");
         }
       },
       function (tx, error) {
-        ons.notification.alert("Error al validar correo: " + error.message);
+        ons.notification.alert("Error verificando usuario: " + error.message);
       }
     );
   });
 }
 
-
-function actualizar() {
-  var name = getValue("nombre");
-  var email = getValue("correo");
-  var username = getValue("username_register");
-  var password = getValue("contrasena");
-  var phone = getValue("telefono");
-
-  if (email === "") {
-    ons.notification.alert("Por favor ingrese un correo.");
-    return;
-  }
-
-  var db = openDatabase();
-
-  db.transaction(function (tx) {
-    tx.executeSql(
-      "SELECT * FROM users WHERE email = ?",
-      [email],
-      function (tx, res) {
-        if (res.rows.length > 0) {
-          var updateUserQuery = "UPDATE users SET ";
-          var params = [];
-
-          if (name !== "") {
-            updateUserQuery += "name = ?, ";
-            params.push(name);
-          }
-          if (username !== "") {
-            updateUserQuery += "username = ?, ";
-            params.push(username);
-          }
-          if (password !== "") {
-            updateUserQuery += "password = ?, ";
-            params.push(password);
-          }
-          if (phone !== "") {
-            updateUserQuery += "phone = ?, ";
-            params.push(phone);
-          }
-
-          updateUserQuery = updateUserQuery.slice(0, -2) + " WHERE email = ?";
-          params.push(email);
-
-          db.transaction(function (tx) {
-            tx.executeSql(
-              updateUserQuery,
-              params,
-              function (tx, res) {
-                ons.notification.alert("Usuario actualizado exitosamente.");
-                limpiarCampos();
-              },
-              function (tx, error) {
-                ons.notification.alert("Error al actualizar el usuario: " + error.message);
-              }
-            );
-          });
-        } else {
-          ons.notification.alert("Correo ya existe. Por favor ingrese otro.");
-        }
-      },
-      function (tx, error) {
-        ons.notification.alert(
-          "Error al validar correo " + error.message
-        );
-      }
-    );
-  });
-}
-function deleteUser() {
-  var email = getValue("correo_consulta");
-
-  var db = openDatabase();
-
-  db.transaction(function (tx) {
-    tx.executeSql(
-      "SELECT * FROM users WHERE email = ?",
-      [email],
-      function (tx, res) {
-        if (res.rows.length > 0) {
-          tx.executeSql(
-            "DELETE FROM users WHERE email = ?",
-            [email],
-            function (tx, res) {
-              ons.notification.alert("Usuario eliminado exitosamente.");
-            },
-            function (tx, error) {
-              ons.notification.alert("Error al eliminar el usuario: " + error.message);
-            }
-          );
-        } else {
-          ons.notification.alert("Correo no existe.");
-        }
-      },
-      function (tx, error) {
-        ons.notification.alert("Error al validar el correo " + error.message);
-      }
-    );
-  });
+function generateSalt() {
+  // Generar una cadena de sal aleatoria, por ejemplo, utilizando una función criptográficamente segura
+  return (
+    Math.random().toString(36).substring(2, 15) +
+    Math.random().toString(36).substring(2, 15)
+  );
 }
 
+function hashPassword(password, salt) {
+  // Concatenar la contraseña y la sal
+  const passwordWithSalt = password + salt;
 
-function login() {
-  var username = getValue("username");
-  var password = getValue("password");
+  // Aplicar un algoritmo de hash a la contraseña + sal
+  const hashedPassword = sha256(passwordWithSalt);
 
-  var db = openDatabase();
-
-  db.transaction(function (tx) {
-    tx.executeSql(
-      "SELECT * FROM users WHERE username = ? AND password = ?",
-      [username, password],
-      function (tx, res) {
-        if (
-          res.rows.length > 0 &&
-          res.rows.item(0).username === username &&
-          res.rows.item(0).password === password
-        ) {
-          limpiarCamposLogin();
-          window.location.href = "home.html";
-        } else {
-          ons.notification.alert("Usuario o contraseña incorrectos.");
-          limpiarCamposLogin();
-        }
-      },
-      function (tx, error) {
-        ons.notification.alert("Error executing SQL: " + error.message);
-      }
-    );
-  });
+  return hashedPassword;
 }
 
-function mostrarPorCorreo() {
-  var email = getValue("correo_consulta");
-  var db = openDatabase();
-
+/**
+ *
+ *
+ * Fución que no se utilizara en el despliegue de la aplicación
+ *
+ *
+ */
+// ver usuarios
+function viewUsers() {
   db.transaction(function (tx) {
-    tx.executeSql(
-      "SELECT * FROM users WHERE email = ?",
-      [email],
-      function (tx, res) {
-        const users = document.getElementById("consultas-list");
-        var items = users.querySelectorAll("ons-list-item");
-        items.forEach(function (item) {
-          item.remove();
-        });
-        if (res.rows.length > 0 && res.rows.item(0).email === email) {
-          var user = res.rows.item(0);
-          var item = document.createElement("ons-list-item");
-          item.innerHTML =
-            "Username: " + user.name + " - Correo: " + user.email;
-          users.appendChild(item);
-        }
-      }
-    );
-  });
-}
-
-function mostrarUsers() {
-  var db = openDatabase();
-
-  db.transaction(function (tx) {
-    tx.executeSql("SELECT * FROM users", [], function (tx, res) {
+    tx.executeSql("SELECT * FROM User", [], function (tx, res) {
       const users = document.getElementById("users-list");
       var items = users.querySelectorAll("ons-list-item");
       items.forEach(function (item) {
@@ -224,47 +99,91 @@ function mostrarUsers() {
   });
 }
 
+// iniciar sesión
+function login(username, password) {
+  if (!validateFields([username, password])) {
+    ons.notification.alert("Por favor complete todos los campos.");
+    return;
+  }
 
-function limpiarCampos() {
-  setValue("nombre", "");
-  setValue("correo", "");
-  setValue("username_register", "");
-  setValue("contrasena", "");
-  setValue("telefono", "");
+  db.transaction(function (tx) {
+    tx.executeSql(
+      "SELECT salt, password FROM User WHERE username = ?",
+      [username],
+      function (tx, res) {
+        if (res.rows.length > 0) {
+          var salt = res.rows.item(0).salt;
+          var hashedPassword = hashPassword(password, salt);
+          var storedPassword = res.rows.item(0).password;
+          if (hashedPassword === storedPassword) {
+            updateLastLogin(username);
+            window.location.href = "home.html";
+          } else {
+            ons.notification.alert("Contraseña incorrecta.");
+          }
+        } else {
+          ons.notification.alert("Usuario no encontrado.");
+        }
+      },
+      function (tx, error) {
+        ons.notification.alert("Error al iniciar sesión: " + error.message);
+      }
+    );
+  });
 }
-
-function limpiarCamposLogin() {
-  setValue("username", "");
-  setValue("password", "");
-}
-
-function openDatabase() {
-  return window.sqlitePlugin.openDatabase({
-    name: "my.db",
-    location: "default",
+// actualizar last_login
+function updateLastLogin(username) {
+  db.transaction(function (tx) {
+    tx.executeSql(
+      "UPDATE User SET last_login = ? WHERE username = ?",
+      [new Date().toLocaleString(), username],
+      function (tx, res) {
+        console.log("last_login actualizado.");
+      },
+      function (tx, error) {
+        ons.notification.alert("Error actualizando last_login: " + error.message);
+      }
+    );
   });
 }
 
-function getValue(id) {
-  return document.getElementById(id).value;
-}
-
-function setValue(id, value) {
-  document.getElementById(id).value = value;
-}
-
+// Validar campos del formulario
 function validateFields(fields) {
-  for (var i = 0; i < fields.length; i++) {
-    if (fields[i] === "") {
-      return false;
-    }
-  }
-  return true;
+  return fields.every((field) => field.trim() !== "");
 }
 
-document.addEventListener("init", function (event) {
-  var page = event.target;
+// validar nombres de usuario
+// Sin simbolos especiales, ni numros
+// Solo letras
+/*^ indica que el patrón debe iniciar con los caracteres dentro de los corchetes
+[A-Z] indica que los caracteres admitidos son letras del alfabeto
++ indica que los caracteres dentro de los corchetes se pueden repetir
+$ indica que el patrón finaliza con los caracteres que están dentro de los corchetes.
+i indica que validaremos letras mayúsculas y minúsculas (case-insensitive)*/
+function validateName(name) {
+  const pattern = /^[A-Z]+$/i; // Expresión regular para validar solo letras en mayúsculas y minúsculas
+  return pattern.test(name);
+}
 
+function validateEmail(email) {
+  const pattern = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/; // Expresión regular para validar un email
+  return pattern.test(email);
+}
+
+//validar numero de telefono
+function validatePhone(phone) {
+  if (phone.length < 10) {
+    return false;
+  }
+  const pattern = /^[0-9]+$/; // Expresión regular para validar solo números
+  return pattern.test(phone);
+}
+
+// evento de inicialización de la aplicación con Onsen UI para cargar las páginas de la aplicación
+document.addEventListener("init", function (event) {
+  var page = event.target; // Página actual cargada
+
+  // Página de inicio
   if (page.id === "inicio") {
     page.querySelector("#push-registro").onclick = function () {
       document
@@ -277,23 +196,35 @@ document.addEventListener("init", function (event) {
         .pushPage("consultas.html", { data: { title: "Consultas" } });
     };
     page.querySelector("#login-button").onclick = function () {
-      login();
+      (user = page.querySelector("#username").value),
+        (password = page.querySelector("#password").value);
+      login(user, password);
     };
     page.querySelector("#show-users").onclick = function () {
-      mostrarUsers();
+      viewUsers();
     };
+
+    // Página de registro
   } else if (page.id === "registro") {
     page.querySelector("ons-toolbar .center").innerHTML = page.data.title;
     page.querySelector("#registro-button").onclick = function () {
-      register();
+      registerUser(
+        page.querySelector("#nombre").value,
+        page.querySelector("#username_register").value,
+        page.querySelector("#correo").value,
+        page.querySelector("#contrasena").value,
+        page.querySelector("#telefono").value
+      );
     };
     page.querySelector("#actualizar-button").onclick = function () {
-      actualizar();
+      update();
     };
+
+    // Página de consultas
   } else if (page.id === "consultas") {
     page.querySelector("ons-toolbar .center").innerHTML = page.data.title;
     page.querySelector("#consulta-button").onclick = function () {
-      mostrarPorCorreo();
+      viewEmail();
     };
     page.querySelector("#eliminar-button").onclick = function () {
       deleteUser();
