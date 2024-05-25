@@ -79,7 +79,7 @@ function onDeviceReady() {
         });
 
         // crear tabla de configuración si no existe
-        tx.executeSql(`CREATE TABLE IF NOT EXISTS Configuration (
+        tx.executeSql(`CREATE TABLE IF NOT EXISTS Configuracion (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
             show_quote BOOLEAN DEFAULT TRUE,
