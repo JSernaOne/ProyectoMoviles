@@ -22,7 +22,7 @@ function registerUser(name, username, email, password, phone) {
 
   db.transaction(function (tx) {
     tx.executeSql(
-      "SELECT * FROM users WHERE username = ? OR email = ? OR phone = ?",
+      "SELECT * FROM User WHERE username = ? OR email = ? OR phone = ?",
       [username, email, phone],
       function (tx, res) {
         if (res.rows.length > 0) {
@@ -35,7 +35,7 @@ function registerUser(name, username, email, password, phone) {
 
           // Insertar nuevo usuario
           tx.executeSql(
-            "INSERT INTO users (name, email, username, password, salt, phone) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO User (name, email, username, password, salt, phone) VALUES (?, ?, ?, ?, ?, ?)",
             [name, email, username, hashedPassword, salt, phone],
             function (tx, res) {
               ons.notification.alert("Usuario registrado exitosamente.");
@@ -83,7 +83,7 @@ function hashPassword(password, salt) {
 // ver usuarios
 function viewUsers() {
   db.transaction(function (tx) {
-    tx.executeSql("SELECT * FROM users", [], function (tx, res) {
+    tx.executeSql("SELECT * FROM User", [], function (tx, res) {
       const users = document.getElementById("users-list");
       var items = users.querySelectorAll("ons-list-item");
       items.forEach(function (item) {
@@ -108,7 +108,7 @@ function login(username, password) {
 
   db.transaction(function (tx) {
     tx.executeSql(
-      "SELECT salt, password FROM users WHERE username = ?",
+      "SELECT salt, password FROM User WHERE username = ?",
       [username],
       function (tx, res) {
         if (res.rows.length > 0) {
@@ -116,8 +116,8 @@ function login(username, password) {
           var hashedPassword = hashPassword(password, salt);
           var storedPassword = res.rows.item(0).password;
           if (hashedPassword === storedPassword) {
-            ons.notification.alert("Inicio de sesión exitoso.");
-            window.location.href = "home.html";
+            updateLastLogin(username);
+            window.location.href = "/template/home.html";
           } else {
             ons.notification.alert("Contraseña incorrecta.");
           }
@@ -127,6 +127,21 @@ function login(username, password) {
       },
       function (tx, error) {
         ons.notification.alert("Error al iniciar sesión: " + error.message);
+      }
+    );
+  });
+}
+// actualizar last_login
+function updateLastLogin(username) {
+  db.transaction(function (tx) {
+    tx.executeSql(
+      "UPDATE User SET last_login = ? WHERE username = ?",
+      [new Date().toLocaleString(), username],
+      function (tx, res) {
+        console.log("last_login actualizado.");
+      },
+      function (tx, error) {
+        ons.notification.alert("Error actualizando last_login: " + error.message);
       }
     );
   });

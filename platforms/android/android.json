@@ -28,11 +28,11 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 1
+              "count": 2
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-              "count": 1
+              "count": 2
             }
           ]
         }
@@ -54,15 +54,15 @@
             },
             {
               "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
+              "count": 2
             },
             {
               "xml": "<allow-navigation href=\"cdvfile:*\" />",
-              "count": 1
+              "count": 2
             },
             {
               "xml": "<feature name=\"CordovaHttpPlugin\"><param name=\"android-package\" value=\"com.silkimen.cordovahttp.CordovaHttpPlugin\" /></feature>",
-              "count": 1
+              "count": 2
             }
           ]
         }

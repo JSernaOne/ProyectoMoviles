@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="color-scheme" content="light dark"/>
+
+    <title>Home</title>
+
+    <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css"/>
+    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.min.css"/>
+    <link rel="stylesheet" href="../css/Style/fade-out.css">
+
+</head>
+<body>
+<ons-navigator swipeable id="myNavigator" page="inicio.html"></ons-navigator>
+
+<template id="inicio.html">
+    <ons-page id="inicio">
+        <ons-toolbar>
+            <div class="center">Home</div>
+        </ons-toolbar>
+
+        <div style="text-align: center; margin-top: 50px;">
+            <h3 id="welcome-message">Bienvenido</h3>
+            <p id="motivational-quote">Frase Motivacional</p>
+            <p id="current-date">Fecha Actual</p>
+            <ons-button id="add-task-button">Agregar tarea</ons-button>
+        </div>
+
+        <ons-list id="task-list">
+            <ons-list-header>Lista de Tareas</ons-list-header>
+            <!-- Aquí se agregarán las tareas dinámicamente -->
+        </ons-list>
+
+        <ons-bottom-toolbar>
+            <div style="text-align: center;">
+                <ons-button id="push-button" style="margin: 10px;">Localización</ons-button>
+                <ons-button id="edit" style="margin: 10px;">Editar</ons-button>
+                <ons-button id="Volver" style="margin: 10px;">Volver</ons-button>
+            </div>
+        </ons-bottom-toolbar>
+    </ons-page>
+</template>
+
+<script src="../cordova.js"></script>
+<script src="../js/index.js"></script>
+<script src="../js/home.js"></script>
+<script src="../lib/onsenui/js/onsenui.min.js"></script>
+
+</body>
+</html>
+
+

@@ -117,7 +117,7 @@ function login(username, password) {
           var storedPassword = res.rows.item(0).password;
           if (hashedPassword === storedPassword) {
             updateLastLogin(username);
-            window.location.href = "home.html";
+            window.location.href = "/template/home.html";
           } else {
             ons.notification.alert("Contraseña incorrecta.");
           }
