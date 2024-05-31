@@ -49,7 +49,8 @@
     />
 
     <script src="lib/js-sha256/build/sha256.min.js"></script>
-    <script src="js/myBD.js"></script>
+    <script src="js/config/myBD.js"></script>
+    <script src="js/config/sync.config.js"></script>
     
   </head>
   <body>
@@ -67,9 +68,10 @@
         <div style="text-align: center; margin-top: 30px">
           <p>
             <ons-input
-              id="username"
+              id="email"
               modifier="underbar"
-              placeholder="Username"
+              placeholder="Email"
+              data-type="email"
               float
             ></ons-input>
           </p>
@@ -87,9 +89,6 @@
           </p>
           <p style="margin-top: 20px">
             <ons-button id="push-registro">Registrarse</ons-button>
-          </p>
-          <p style="margin-top: 20px">
-            <ons-button id="push-consultas">Consultas</ons-button>
           </p>
         </div>
         <p style="margin-top: 20px; margin-left: 10px">
@@ -170,44 +169,7 @@
           <p>
             <ons-button id="registro-button">Registrarse</ons-button>
           </p>
-          <p>
-            <ons-button id="actualizar-button">Actualizar</ons-button>
-          </p>
         </div>
-      </ons-page>
-    </template>
-
-    <template id="consultas.html">
-      <ons-page id="consultas">
-        <ons-toolbar>
-          <div class="left">
-            <ons-back-button>Inicio</ons-back-button>
-          </div>
-          <div class="center">Consultas</div>
-        </ons-toolbar>
-        <div style="text-align: center; margin-top: 30px">
-          <p>
-            <ons-input
-              id="correo_consulta"
-              modifier="underbar"
-              placeholder="Correo"
-              float
-            ></ons-input>
-          </p>
-          <p style="margin-top: 30px">
-            <ons-button id="consulta-button">Consultar</ons-button>
-          </p>
-          <p style="margin-top: 20px">
-            <ons-button id="eliminar-button">Eliminar</ons-button>
-          </p>
-        </div>
-
-        <ons-list
-          id="consultas-list"
-          style="margin-left: 10px; margin-top: 20px; margin-right: 10px"
-        >
-          <ons-list-header>Consultas</ons-list-header>
-        </ons-list>
       </ons-page>
     </template>
 
@@ -216,5 +178,7 @@
     <script src="lib/onsenui/js/onsenui.min.js"></script>
 
     <script src="js/login.js"></script>
+    <script src="js/models/user.model.js"></script>
+
   </body>
 </html>
