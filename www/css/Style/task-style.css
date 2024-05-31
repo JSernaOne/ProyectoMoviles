@@ -1,0 +1,87 @@
+/* Estilos para el encabezado */
+ons-toolbar {
+    background-color: #3498db; /* Azul */
+    color: white;
+}
+
+/* Estilos para los botones */
+ons-button {
+    background-color: #2ecc71; /* Verde */
+    color: white;
+    border-radius: 20px; /* Bordes redondeados */
+    margin-top: 30px; /* Margen superior */
+    margin-bottom: 20px; /* Margen inferior */
+}
+
+/* Estilos para los input */
+ons-input {
+    margin-top: 10px;
+}
+
+/* Estilos para los list-items */
+ons-list-item {
+    margin-top: 10px;
+}
+
+/* Estilos para el mapa */
+#map {
+    margin-top: 20px;
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Estilos para los radio buttons */
+label.left {
+    color: #333; /* Color del texto */
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+label.left span {
+    margin-left: 5px;
+}
+
+/* Estilos para los mensajes de error */
+.error-message {
+    color: red; /* Rojo */
+    font-weight: bold;
+}
+
+/* Estilos para la fecha */
+#task-date, #task-time {
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 8px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño del texto */
+    color: #333; /* Color del texto */
+    background-color: #f9f9f9; /* Color de fondo */
+}
+
+/* Estilos para los inputs */
+ons-input {
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 8px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño del texto */
+    color: #333; /* Color del texto */
+    background-color: #f9f9f9; /* Color de fondo */
+}
+
+/* Estilo para ocultar los campos de latitud y longitud */
+#task-latitude, #task-longitude {
+    display: none; /* Oculta los elementos */
+}
+
+/* Estilos para centrar el título y el botón */
+#add-task-page ons-toolbar .center,
+#add-task-page ons-button {
+    text-align: center; /* Centra el texto */
+    margin: auto; /* Centra horizontalmente */
+    display: block; /* Asegura que ocupen todo el ancho disponible */
+    width: fit-content; /* Ajusta el ancho al contenido */
+}
+
+#task-name {
+    width: 96%; /* Ancho del 100% */
+    margin-top: 10px; /* Espaciado superior */ 
+}

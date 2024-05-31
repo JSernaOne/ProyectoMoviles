@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css">
     <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.min.css">
+    <link rel="stylesheet" href="../css/Style/task-style.css">
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOr4tiznICsTgUolq99SYbtazjd0aFbAE&callback=initMap"></script>
 </head>
 <body>
@@ -63,8 +64,10 @@
         </ons-list>
         <p></p>
         <div id="map" style="height: 300px; width: 100%;"></div>
+        
         <ons-input type="hidden" id="task-latitude"></ons-input>
         <ons-input type="hidden" id="task-longitude"></ons-input>
+
         <ons-button onclick="saveTask()">Guardar Tarea</ons-button>
     </div>
 </ons-page>

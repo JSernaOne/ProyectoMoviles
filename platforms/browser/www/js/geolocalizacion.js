@@ -47,7 +47,7 @@ function mostrarEnMapa(latitude, longitude) {
             title: "Ubicación Actual"
         });
         const infoWindow = new google.maps.InfoWindow({
-            content: 'Ubicación Actual'
+            content: '<div class="custom-info-window"><h1>Ubicación Actual</h1><p>Esta es tu ubicación actual.</p></div>'
         });
 
         marker.addListener('click', () => {
@@ -75,7 +75,7 @@ function loadTaskMarkers() {
                 title: task.text
             });
             const infoWindow = new google.maps.InfoWindow({
-                content: task.text
+                content: `<div class="custom-info-window"><h1>${task.text}</h1><p>Esta es la ubicación de tu tarea.</p></div>`
                 });
 
             taskMarker.addListener('click', () => {

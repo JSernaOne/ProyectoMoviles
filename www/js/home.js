@@ -4,14 +4,29 @@ document.addEventListener('init', function(event) {
         loadInitialData();
         loadTasks();
         page.querySelector("#add-task-button").onclick = function () {
-            window.location.href = "/template/add-task.html";
+            showLoadingSpinner();
+            setTimeout(() => {
+                window.location.href = "/template/add-task.html";
+            },1000);
         };
         page.querySelector("#push-button").onclick = function () {
-            window.location.href = "/template/mapa.html";
+            showLoadingSpinner();
+            setTimeout(() => {
+                window.location.href = "/template/mapa.html";
+            },1000);
         };
         page.querySelector("#edit").onclick = function () {
-            window.location.href = "/template/edit.html";
-        };
+            showLoadingSpinner();
+            setTimeout(() => {
+                window.location.href = "/template/edit.html";
+            },1000);
+        }
+        page.querySelector("#volver").onclick = function () {
+            showLoadingSpinner();
+            setTimeout(() => {
+                closeAddTaskPage();
+            },1000);
+        }
     }
 });
 
@@ -65,4 +80,15 @@ function removeTask(index) {
     loadTasks();
 }
 
+function showLoadingSpinner() {
+    const spinner = document.getElementById('loading-spinner');
+    spinner.style.display = 'block';
+    setTimeout(() => {
+        spinner.style.display = 'none';
+    },1000);
+}
+
+function closeAddTaskPage() {
+    window.location = '/www/index.html';
+}
 

@@ -1,0 +1,45 @@
+/* Estilos para el mapa */
+#map {
+    margin-top: 20px;
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Estilo para la ventana de información */
+.custom-info-window {
+    font-family: 'Arial, sans-serif';
+    font-size: 14px;
+    padding: 10px;
+    background-color: #2600ff;
+    border: 1px solid #080606;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+.custom-info-window h1 {
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+}
+
+.custom-info-window p {
+    margin: 5px 0 0;
+    padding: 0;
+    color: #ffffff;
+}
+
+ons-toolbar .left {
+    text-align: center; /* Centra el texto */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+ons-toolbar .left label {
+    margin: 0 auto; /* Centra horizontalmente */
+}
+
+#push-tabla {
+    display: block; /* Asegura que sea un bloque */
+    margin: 0 auto; /* Centra horizontalmente */
+    margin-top: 10px; /* Espacio superior */
+}

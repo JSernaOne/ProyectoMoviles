@@ -1,0 +1,47 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+.container {
+    border: 2px solid black;
+    padding: 20px;
+    background-color: white;
+}
+.photo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.photo img {
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid black;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+.save-button {
+    display: flex;
+    justify-content: flex-end;
+}
+.save-button button {
+    padding: 10px 20px;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+}
