@@ -17,6 +17,7 @@ document.addEventListener('init', function(event) {
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
+
 function loadInitialData() {
     const userName = "George"; // Este valor se debe obtener de la base de datos
     const motivationalQuote = "El éxito es la suma de pequeños esfuerzos repetidos día tras día."; // Este valor se debe obtener de la base de datos
