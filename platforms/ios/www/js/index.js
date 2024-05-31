@@ -19,6 +19,7 @@
 
 // Wait for the deviceready event before using any of Cordova's device APIs.
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
+
 document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
@@ -26,16 +27,14 @@ function onDeviceReady() {
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
+
+    // // Llamar a fetchUnsyncedData y syncFromServer inicialmente
+    // fetchUnsyncedData(); // Subir datos locales pendientes
+    // syncFromServer(); // Descargar datos actualizados del servidor
+
+    // // Configurar la sincronización periódica
+    // setInterval(function() {
+    //     fetchUnsyncedData();
+    //     syncFromServer();
+    // }, 60000); // Sincroniza cada minuto
 }
-
-document.addEventListener('init', function(event) {
-  var page = event.target;
-
-  if (page.id === 'inicio') {
-    page.querySelector('#push-button').onclick = function() {
-      document.querySelector('#myNavigator').pushPage('mapa.html', {data: {title: 'Mapa'}}); // Pasar el título de la página como datos. Y navegar a la página.
-    };
-  } else if (page.id === 'mapa') {
-    page.querySelector('ons-toolbar .center').innerHTML = page.data.title; // Actulizar el título de la página con el título pasado en el evento data.
-  }
-});

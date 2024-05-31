@@ -19,10 +19,24 @@
 
 // Wait for the deviceready event before using any of Cordova's device APIs.
 // See https://cordova.apache.org/docs/en/latest/cordova/events/events.html#deviceready
+
 document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
+    
+    // Llamar a fetchUnsyncedData y syncFromServer inicialmente
+    syncLocalToServer(); // Enviar datos locales no sincronizados al servidor
+    syncFromServer(); // Descargar datos actualizados del servidor
+
+    console.log('sync.config.js cargado exitosamente');
+
+    console.log('Configurando la sincronización periódica...');
+    // Configurar la sincronización periódica
+    setInterval(function() {
+        syncLocalToServer();
+        syncFromServer();
+    }, 60000); // Sincroniza cada minuto
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');

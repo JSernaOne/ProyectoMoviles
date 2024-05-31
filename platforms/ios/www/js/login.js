@@ -3,6 +3,15 @@ function registerUser(name, username, email, password, phone) {
   var salt = generateSalt(); // Generar una sal aleatoria
   var hashedPassword = hashPassword(password, salt); // Aplicar hash a la contraseña + sal*/
 
+  user = {
+    name: name,
+    username: username,
+    email: email,
+    password: hashedPassword,
+    salt: salt,
+    phone: phone,
+  };
+
   // validar campos
   if (!validateFields([name, username, email, password, phone])) {
     ons.notification.alert("Por favor complete todos los campos.");
@@ -22,7 +31,7 @@ function registerUser(name, username, email, password, phone) {
 
   db.transaction(function (tx) {
     tx.executeSql(
-      "SELECT * FROM users WHERE username = ? OR email = ? OR phone = ?",
+      "SELECT * FROM User WHERE username = ? OR email = ? OR phone = ?",
       [username, email, phone],
       function (tx, res) {
         if (res.rows.length > 0) {
@@ -30,15 +39,13 @@ function registerUser(name, username, email, password, phone) {
             "El username, email o teléfono ya están registrados."
           );
         } else {
-          var salt = generateSalt();
-          var hashedPassword = hashPassword(password, salt);
-
           // Insertar nuevo usuario
           tx.executeSql(
-            "INSERT INTO users (name, email, username, password, salt, phone) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO User (name, email, username, password, salt, phone) VALUES (?, ?, ?, ?, ?, ?)",
             [name, email, username, hashedPassword, salt, phone],
             function (tx, res) {
-              ons.notification.alert("Usuario registrado exitosamente.");
+              console.log("Usuario registrado exitosamente.");
+              register(user);
             },
             function (tx, error) {
               ons.notification.alert(
@@ -55,6 +62,7 @@ function registerUser(name, username, email, password, phone) {
   });
 }
 
+// generar salt aleatorio para la contraseña
 function generateSalt() {
   // Generar una cadena de sal aleatoria, por ejemplo, utilizando una función criptográficamente segura
   return (
@@ -83,7 +91,7 @@ function hashPassword(password, salt) {
 // ver usuarios
 function viewUsers() {
   db.transaction(function (tx) {
-    tx.executeSql("SELECT * FROM users", [], function (tx, res) {
+    tx.executeSql("SELECT * FROM User", [], function (tx, res) {
       const users = document.getElementById("users-list");
       var items = users.querySelectorAll("ons-list-item");
       items.forEach(function (item) {
@@ -100,24 +108,36 @@ function viewUsers() {
 }
 
 // iniciar sesión
-function login(username, password) {
-  if (!validateFields([username, password])) {
+function loginUser(email, password) {
+  if (!validateFields([email, password])) {
     ons.notification.alert("Por favor complete todos los campos.");
     return;
   }
 
   db.transaction(function (tx) {
     tx.executeSql(
-      "SELECT salt, password FROM users WHERE username = ?",
-      [username],
-      function (tx, res) {
+      "SELECT salt, password FROM User WHERE email = ?",
+      [email],
+      async function (tx, res) {
         if (res.rows.length > 0) {
           var salt = res.rows.item(0).salt;
           var hashedPassword = hashPassword(password, salt);
           var storedPassword = res.rows.item(0).password;
+
           if (hashedPassword === storedPassword) {
-            ons.notification.alert("Inicio de sesión exitoso.");
-            window.location.href = "home.html";
+            // Credenciales locales válidas, proceder a validar en la nube
+            const loginJson = {
+              email: email,
+              password: hashedPassword,
+            };
+
+            const loginSuccess = await login(loginJson);
+            if (loginSuccess) {
+              updateLastLogin(email);
+              window.location.href = "/templates/home.html";
+            } else {
+              ons.notification.alert("Error al iniciar sesión en la nube.");
+            }
           } else {
             ons.notification.alert("Contraseña incorrecta.");
           }
@@ -132,6 +152,24 @@ function login(username, password) {
   });
 }
 
+// actualizar last_login
+function updateLastLogin(email) {
+  db.transaction(function (tx) {
+    tx.executeSql(
+      "UPDATE User SET last_login = ? WHERE email = ?",
+      [new Date().toLocaleString(), email],
+      function (tx, res) {
+        console.log("last_login actualizado.");
+      },
+      function (tx, error) {
+        ons.notification.alert(
+          "Error actualizando last_login: " + error.message
+        );
+      }
+    );
+  });
+}
+
 // Validar campos del formulario
 function validateFields(fields) {
   return fields.every((field) => field.trim() !== "");
@@ -141,10 +179,10 @@ function validateFields(fields) {
 // Sin simbolos especiales, ni numros
 // Solo letras
 /*^ indica que el patrón debe iniciar con los caracteres dentro de los corchetes
-[A-Z] indica que los caracteres admitidos son letras del alfabeto
-+ indica que los caracteres dentro de los corchetes se pueden repetir
-$ indica que el patrón finaliza con los caracteres que están dentro de los corchetes.
-i indica que validaremos letras mayúsculas y minúsculas (case-insensitive)*/
+  [A-Z] indica que los caracteres admitidos son letras del alfabeto
+  + indica que los caracteres dentro de los corchetes se pueden repetir
+  $ indica que el patrón finaliza con los caracteres que están dentro de los corchetes.
+  i indica que validaremos letras mayúsculas y minúsculas (case-insensitive)*/
 function validateName(name) {
   const pattern = /^[A-Z]+$/i; // Expresión regular para validar solo letras en mayúsculas y minúsculas
   return pattern.test(name);
@@ -175,15 +213,10 @@ document.addEventListener("init", function (event) {
         .querySelector("#myNavigator")
         .pushPage("registro.html", { data: { title: "Registro" } });
     };
-    page.querySelector("#push-consultas").onclick = function () {
-      document
-        .querySelector("#myNavigator")
-        .pushPage("consultas.html", { data: { title: "Consultas" } });
-    };
     page.querySelector("#login-button").onclick = function () {
-      (user = page.querySelector("#username").value),
+      (email = page.querySelector("#email").value),
         (password = page.querySelector("#password").value);
-      login(user, password);
+      loginUser(email, password);
     };
     page.querySelector("#show-users").onclick = function () {
       viewUsers();
@@ -200,19 +233,6 @@ document.addEventListener("init", function (event) {
         page.querySelector("#contrasena").value,
         page.querySelector("#telefono").value
       );
-    };
-    page.querySelector("#actualizar-button").onclick = function () {
-      update();
-    };
-
-    // Página de consultas
-  } else if (page.id === "consultas") {
-    page.querySelector("ons-toolbar .center").innerHTML = page.data.title;
-    page.querySelector("#consulta-button").onclick = function () {
-      viewEmail();
-    };
-    page.querySelector("#eliminar-button").onclick = function () {
-      deleteUser();
     };
   }
 });
