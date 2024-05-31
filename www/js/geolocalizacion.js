@@ -1,3 +1,25 @@
+let map;
+let marker;
+let taskMarkers = [];
+
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 4.299459, lng: -75.290729 },
+        zoom: 6
+    });
+
+    loadTaskMarkers(); // Cargar los marcadores de las tareas almacenadas
+}
+
+function closeAddTaskPage() {
+    window.location = '/template/home.html';
+}
+
+function todos() {
+    obtenerGeolocalizacion();
+    vibrar();
+}
+
 function obtenerGeolocalizacion() {
     console.log('obtenerGeolocalizacion');
     navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true });
@@ -6,34 +28,62 @@ function obtenerGeolocalizacion() {
 function onSuccess(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
-    var altitude = position.coords.altitude;
-    var accuracy = position.coords.accuracy;
-    var altitudeAccuracy = position.coords.altitudeAccuracy;
-    var heading = position.coords.heading;
-    var speed = position.coords.speed;
-    var timestamp = position.timestamp;
 
-    // Llama a una función para mostrar la información en la tabla
-    mostrarInformacionGeolocalizacion(latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed, timestamp);
+    // Muestra la localización en el mapa
+    mostrarEnMapa(latitude, longitude);
 }
 
 function onError(error) {
     console.error('Error al obtener la geolocalización:', error);
 }
 
-function mostrarInformacionGeolocalizacion(latitude, longitude, altitude, accuracy, altitudeAccuracy, heading, speed, timestamp) {
-    var fila = "<tr><td>" + latitude + "</td><td>" + longitude + "</td><td>" + altitude + "</td><td>" + accuracy + "</td><td>" + altitudeAccuracy + "</td><td>" + heading + "</td><td>" + speed + "</td><td>" + timestamp + "</td></tr>";
-    var btn = document.createElement("TR");
-    btn.innerHTML = fila;
-    document.getElementById("tabla").appendChild(btn);
+function mostrarEnMapa(latitude, longitude) {
+    const myLatLng = { lat: latitude, lng: longitude };
+
+    if (!marker) {
+        marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: "Ubicación Actual"
+        });
+        const infoWindow = new google.maps.InfoWindow({
+            content: 'Ubicación Actual'
+        });
+
+        marker.addListener('click', () => {
+            infoWindow.open(map, marker);
+        });
+
+    } else {
+        marker.setPosition(myLatLng);
+    }
+
+    map.setCenter(myLatLng);
+    map.setZoom(15); // Acerca el mapa a un nivel de zoom más cercano
 }
 
-function agregarEventListeners() {
-    document.getElementById('push-tabla').addEventListener('click', function() {
-        obtenerGeolocalizacion();
+function loadTaskMarkers() {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    tasks.forEach(task => {
+        if (task.location && task.location.latitude && task.location.longitude) {
+            let taskLatLng = { lat: parseFloat(task.location.latitude), lng: parseFloat(task.location.longitude) };
+
+            let taskMarker = new google.maps.Marker({
+                position: taskLatLng,
+                map: map,
+                title: task.text
+            });
+            const infoWindow = new google.maps.InfoWindow({
+                content: task.text
+                });
+
+            taskMarker.addListener('click', () => {
+                infoWindow.open(map, taskMarker);
+                });
+
+            taskMarkers.push(taskMarker);
+        }
     });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    agregarEventListeners(); // Llama a esta función cuando el DOM esté completamente cargado
-});

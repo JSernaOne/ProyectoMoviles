@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta name="color-scheme" content="light dark"/>
+
+    <title>Mapa</title>
+
+    <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css"/>
+    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.min.css"/>
+    <link rel="stylesheet" href="../css/assetsFile/tabla.css"/>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOr4tiznICsTgUolq99SYbtazjd0aFbAE&callback=initMap"></script>
+</head>
+<body>
+<ons-page id="mapa">
+    <ons-toolbar>
+        <div class="left">
+            <ons-back-button onclick="closeAddTaskPage()">Home</ons-back-button>
+            <label>Geolocalización</label>
+        </div>
+        <div class="center"></div>
+    </ons-toolbar>
+    <ons-button id="push-tabla" style="margin-left: 10px; margin:10px" onclick="todos()">Obtener Localización</ons-button>
+    <div id="map" style="height: 700px; width: 96%; margin: 10px;"></div>
+</ons-page>
+
+<script src="../cordova.js"></script>
+<script src="../js/geolocalizacion.js"></script>
+<script src="../js/vibracion.js"></script>
+<script src="../lib/onsenui/js/onsenui.min.js"></script>
+
+</body>
+</html>

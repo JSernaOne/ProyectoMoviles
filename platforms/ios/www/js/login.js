@@ -116,15 +116,22 @@ function loginUser(email, password) {
 
   db.transaction(function (tx) {
     tx.executeSql(
+<<<<<<< HEAD
       "SELECT salt, password FROM User WHERE email = ?",
       [email],
       async function (tx, res) {
+=======
+      "SELECT salt, password FROM User WHERE username = ?",
+      [username],
+      function (tx, res) {
+>>>>>>> DevelopGeorge
         if (res.rows.length > 0) {
           var salt = res.rows.item(0).salt;
           var hashedPassword = hashPassword(password, salt);
           var storedPassword = res.rows.item(0).password;
 
           if (hashedPassword === storedPassword) {
+<<<<<<< HEAD
             // Credenciales locales válidas, proceder a validar en la nube
             const loginJson = {
               email: email,
@@ -138,6 +145,10 @@ function loginUser(email, password) {
             } else {
               ons.notification.alert("Error al iniciar sesión en la nube.");
             }
+=======
+            updateLastLogin(username);
+            window.location.href = "/template/home.html";
+>>>>>>> DevelopGeorge
           } else {
             ons.notification.alert("Contraseña incorrecta.");
           }
@@ -147,6 +158,21 @@ function loginUser(email, password) {
       },
       function (tx, error) {
         ons.notification.alert("Error al iniciar sesión: " + error.message);
+      }
+    );
+  });
+}
+// actualizar last_login
+function updateLastLogin(username) {
+  db.transaction(function (tx) {
+    tx.executeSql(
+      "UPDATE User SET last_login = ? WHERE username = ?",
+      [new Date().toLocaleString(), username],
+      function (tx, res) {
+        console.log("last_login actualizado.");
+      },
+      function (tx, error) {
+        ons.notification.alert("Error actualizando last_login: " + error.message);
       }
     );
   });
