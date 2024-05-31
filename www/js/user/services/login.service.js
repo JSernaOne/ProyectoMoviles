@@ -134,7 +134,7 @@ function loginUser(email, password) {
             const loginSuccess = await login(loginJson);
             if (loginSuccess) {
               updateLastLogin(email);
-              window.location.href = "home.html";
+              window.location.href = "/template/home.html";
             } else {
               ons.notification.alert("Error al iniciar sesión en la nube.");
             }
