@@ -1,7 +1,7 @@
 let map;
 let marker;
 
-function initMap() {
+const initMap = () => {
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 4.299459, lng: -75.290729 },
         zoom: 6
@@ -12,7 +12,7 @@ function initMap() {
     });
 }
 
-function placeMarker(location) {
+const placeMarker = (location) =>{
     if (!marker) {
         marker = new google.maps.Marker({
             position: location,
@@ -22,7 +22,7 @@ function placeMarker(location) {
         marker.setPosition(location);
     }
 
-    // Store the selected location in hidden inputs
+    // mostrar latitud y longitud en los campos de texto
     document.getElementById('task-latitude').value = location.lat();
     document.getElementById('task-longitude').value = location.lng();
 }
@@ -31,7 +31,7 @@ function closeAddTaskPage() {
     window.location = '/template/home.html';
 }
 
-function saveTask() {
+const saveTask = async () =>{
     const taskName = document.getElementById('task-name').value.trim();
     const taskDate = document.getElementById('task-date').value;
     const taskTime = document.getElementById('task-time').value;
@@ -40,21 +40,26 @@ function saveTask() {
     const taskLongitude = document.getElementById('task-longitude').value;
 
     if (taskName && taskDate && taskTime && taskImportance && taskLatitude && taskLongitude) {
-        const task = {
-            text: taskName,
-            date: taskDate,
-            time: taskTime,
-            location: {
-                latitude: taskLatitude,
-                longitude: taskLongitude
-            },
-            priority: taskImportance
+        const geolocalizacion = {
+            latitude: taskLatitude,
+            longitude: taskLongitude
         };
 
         // Save task to localStorage or any other storage
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-        tasks.push(task);
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        saveGeolocalizacion(geolocalizacion);
+
+        db.transaction(function(tx) {
+            tx.executeSql(
+                `INSERT INTO Tareas (lista, fecha, hora, priority, idGeo, iduser) VALUES (?, ?, ?, ?, ?, ?)`,
+                [task.text, task.date, task.time, task.priority, getGeolocalizacionId(geolocalizacion), getUserId()],
+                function(tx, res) {
+                    console.log('Tarea guardada exitosamente.');
+                },
+                function(tx, error) {
+                    console.error('Error al guardar la tarea: ' + error.message);
+                }
+            );
+        });
 
         // Return to home page
         closeAddTaskPage();

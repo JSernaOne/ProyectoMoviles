@@ -17,7 +17,7 @@ function onDeviceReady() {
             phone TEXT,
             status BIT DEFAULT 1,
             show_quote BOOLEAN DEFAULT TRUE, 
-            last_login DATETIME DEFAULT NUll,
+            last_login DATETIME DEFAULT CURRENT_TIMESTAMP,
             sync_status BIT DEFAULT 0, 
             last_sync DATETIME DEFAULT NULL
         )`, [], function(tx, res) {

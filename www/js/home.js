@@ -89,6 +89,6 @@ function showLoadingSpinner() {
 }
 
 function closeAddTaskPage() {
-    window.location = '/www/index.html';
+    window.location.href = "../index.html";
 }
 

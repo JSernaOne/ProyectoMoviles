@@ -1,77 +1,43 @@
-// registrar usuarios
-function registerUser(name, username, email, password, phone) {
-  var salt = generateSalt(); // Generar una sal aleatoria
-  var hashedPassword = hashPassword(password, salt); // Aplicar hash a la contraseña + sal*/
+// Registrar usuario
+const registerUser = async (name, username, email, password, phone) => {
+  if (!validateFields([name, username, email, password, phone])) {
+    return ons.notification.alert("Por favor complete todos los campos.");
+  }
+  if (!validateName(name)) {
+    return ons.notification.alert("El nombre solo debe contener letras.");
+  }
+  if (!validateEmail(email)) {
+    return ons.notification.alert("Por favor ingrese un email válido.");
+  }
+  if (!validatePhone(phone)) {
+    return ons.notification.alert(
+      "El teléfono solo debe contener números y máximo 10 dígitos."
+    );
+  }
 
-  user = {
+  const salt = generateSalt();
+  const hashedPassword = await hashPassword(password, salt);
+
+  saveUser({
     name: name,
     username: username,
     email: email,
     password: hashedPassword,
     salt: salt,
     phone: phone,
-  };
-
-  // validar campos
-  if (!validateFields([name, username, email, password, phone])) {
-    ons.notification.alert("Por favor complete todos los campos.");
-    return;
-  } else if (!validateName(name)) {
-    ons.notification.alert("El nombre solo debe contener letras.");
-    return;
-  } else if (!validateEmail(email)) {
-    ons.notification.alert("Por favor ingrese un email válido.");
-    return;
-  } else if (!validatePhone(phone)) {
-    ons.notification.alert(
-      "El teléfono solo debe contener números y máximo 10 digitos."
-    );
-    return;
-  }
-
-  db.transaction(function (tx) {
-    tx.executeSql(
-      "SELECT * FROM User WHERE username = ? OR email = ? OR phone = ?",
-      [username, email, phone],
-      function (tx, res) {
-        if (res.rows.length > 0) {
-          ons.notification.alert(
-            "El username, email o teléfono ya están registrados."
-          );
-        } else {
-          // Insertar nuevo usuario
-          tx.executeSql(
-            "INSERT INTO User (name, email, username, password, salt, phone) VALUES (?, ?, ?, ?, ?, ?)",
-            [name, email, username, hashedPassword, salt, phone],
-            function (tx, res) {
-              console.log("Usuario registrado exitosamente.");
-              register(user);
-            },
-            function (tx, error) {
-              ons.notification.alert(
-                "Error registrando usuario: " + error.message
-              );
-            }
-          );
-        }
-      },
-      function (tx, error) {
-        ons.notification.alert("Error verificando usuario: " + error.message);
-      }
-    );
   });
-}
-
+  
+};
 // generar salt aleatorio para la contraseña
-function generateSalt() {
+const generateSalt = () => {
   // Generar una cadena de sal aleatoria, por ejemplo, utilizando una función criptográficamente segura
   return (
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15)
   );
-}
+};
 
-function hashPassword(password, salt) {
+const hashPassword = (password, salt) => {
   // Concatenar la contraseña y la sal
   const passwordWithSalt = password + salt;
 
@@ -79,7 +45,7 @@ function hashPassword(password, salt) {
   const hashedPassword = sha256(passwordWithSalt);
 
   return hashedPassword;
-}
+};
 
 /**
  *
@@ -89,7 +55,7 @@ function hashPassword(password, salt) {
  *
  */
 // ver usuarios
-function viewUsers() {
+const viewUsers = async () => {
   db.transaction(function (tx) {
     tx.executeSql("SELECT * FROM User", [], function (tx, res) {
       const users = document.getElementById("users-list");
@@ -100,15 +66,15 @@ function viewUsers() {
       for (var i = 0; i < res.rows.length; i++) {
         var user = res.rows.item(i);
         var item = document.createElement("ons-list-item");
-        item.innerHTML = "Username: " + user.name + " - Correo: " + user.email;
+        item.innerHTML = "Username: " + user.name + " - Correo: " + user.email + " - Last login: " + user.last_login;
         users.appendChild(item);
       }
     });
   });
-}
+};
 
 // iniciar sesión
-function loginUser(email, password) {
+const loginUser = async (email, password) => {
   if (!validateFields([email, password])) {
     ons.notification.alert("Por favor complete todos los campos.");
     return;
@@ -116,13 +82,14 @@ function loginUser(email, password) {
 
   db.transaction(function (tx) {
     tx.executeSql(
-      "SELECT salt, password FROM User WHERE email = ?",
+      "SELECT id, salt, password FROM User WHERE email = ?",
       [email],
       async function (tx, res) {
         if (res.rows.length > 0) {
-          var salt = res.rows.item(0).salt;
-          var hashedPassword = hashPassword(password, salt);
-          var storedPassword = res.rows.item(0).password;
+          let id = res.rows.item(0).id;
+          let salt = res.rows.item(0).salt;
+          let hashedPassword = hashPassword(password, salt);
+          let storedPassword = res.rows.item(0).password;
 
           if (hashedPassword === storedPassword) {
             // Credenciales locales válidas, proceder a validar en la nube
@@ -133,7 +100,7 @@ function loginUser(email, password) {
 
             const loginSuccess = await login(loginJson);
             if (loginSuccess) {
-              updateLastLogin(email);
+              updateLastLogin(id);
               window.location.href = "/template/home.html";
             } else {
               ons.notification.alert("Error al iniciar sesión en la nube.");
@@ -150,14 +117,14 @@ function loginUser(email, password) {
       }
     );
   });
-}
+};
 
 // actualizar last_login
-function updateLastLogin(email) {
+const updateLastLogin = (id) => {
   db.transaction(function (tx) {
     tx.executeSql(
-      "UPDATE User SET last_login = ? WHERE email = ?",
-      [new Date().toLocaleString(), email],
+      "UPDATE User SET last_login = ? WHERE id = ?",
+      [new Date().toLocaleString(), id],
       function (tx, res) {
         console.log("last_login actualizado.");
       },
@@ -171,7 +138,7 @@ function updateLastLogin(email) {
 }
 
 // Validar campos del formulario
-function validateFields(fields) {
+const validateFields = (fields) =>{
   return fields.every((field) => field.trim() !== "");
 }
 
@@ -183,7 +150,7 @@ function validateFields(fields) {
   + indica que los caracteres dentro de los corchetes se pueden repetir
   $ indica que el patrón finaliza con los caracteres que están dentro de los corchetes.
   i indica que validaremos letras mayúsculas y minúsculas (case-insensitive)*/
-function validateName(name) {
+const validateName = (name) => {
   const pattern = /^[A-Z]+$/i; // Expresión regular para validar solo letras en mayúsculas y minúsculas
   return pattern.test(name);
 }
@@ -194,7 +161,7 @@ function validateEmail(email) {
 }
 
 //validar numero de telefono
-function validatePhone(phone) {
+const validatePhone = (phone) =>{
   if (phone.length < 10) {
     return false;
   }

@@ -1,52 +1,33 @@
-const register = async (user) => {
-  try {
-    const response = await fetch("http://localhost:3050/api/users/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+const saveUser = async (user) => {
+   db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT * FROM User WHERE username = ? OR email = ? OR phone = ?",
+      [user.username, user.email, user.phone],
+      (tx, res) => {
+        if (res.rows.length > 0) {
+          return ons.notification.alert(
+            "El username, email o teléfono ya están registrados."
+          );
+        }
+
+        tx.executeSql(
+          "INSERT INTO User (name, email, username, password, salt, phone) VALUES (?, ?, ?, ?, ?, ?)",
+          [user.name, user.email, user.username, user.password, user.salt, user.phone],
+          (tx, res) => {
+            console.log("Usuario registrado exitosamente.");
+            registerUserCloud(user);
+          },
+          (tx, error) => {
+            ons.notification.alert(
+              "Error registrando usuario: " + error.message
+            );
+          }
+        );
       },
-      body: JSON.stringify(user),
-    });
-    if (response.status === 201) {
-      ons.notification.alert("Usuario registrado exitosamente");
-    } else if (response.status === 409) {
-      ons.notification.alert("El usuario ya está registrado");
-    } else {
-      ons.notification.alert("Error al registrar el usuario");
-    }
-  } catch (error) {
-    console.error("Error:", error);
-  }
+      (tx, error) => {
+        ons.notification.alert("Error verificando usuario: " + error.message);
+      }
+    );
+  });
 };
 
-const login = async (user) => {
-  try {
-    const response = await fetch("http://localhost:3050/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
-
-    if (response.status === 200) {
-      const data = await response.json();
-      console.log("Data:", data);
-
-      // Guardar token y usuario en localStorage para mantener la sesión
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      return true;
-    } else if (response.status === 401) {
-      ons.notification.alert("Usuario o contraseña incorrectos");
-      return false;
-    } else {
-      ons.notification.alert("Error al iniciar sesión");
-      return false;
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    ons.notification.alert("Error de conexión con el servidor");
-    return false;
-  }
-};

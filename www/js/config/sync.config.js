@@ -43,9 +43,14 @@ const fetchUnsyncedData = async () => {
         [],
         (tx, results) => {
           const users = [];
+          // Iterar sobre los resultados y agregarlos al array
           for (let i = 0; i < results.rows.length; i++) {
             users.push(results.rows.item(i));
-            // modificar el estado y la fecha de sincronización
+            
+            // modificar el last login para MYsql
+            let last_login = new Date(results.rows.item(i).last_login);
+            last_login = last_login.toISOString().slice(0, 19).replace("T", " ");
+            results.rows.item(i).last_login = last_login;
           }
           resolve({ user: users });
         },
