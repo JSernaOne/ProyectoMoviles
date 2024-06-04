@@ -25,7 +25,7 @@ const getGeolocalizacionId = async (geolocalizacion) => {
                 [geolocalizacion.latitude, geolocalizacion.longitude],
                 function(tx, res) {
                     const id = res.rows[0].id;
-                    resolve(parseInt(id, 10));
+                    resolve(parseInt(id));
                 },
                 function(tx, error) {
                     console.error('Error al obtener la geolocalización: ' + error.message);

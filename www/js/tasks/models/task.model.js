@@ -31,7 +31,7 @@ function closeAddTaskPage() {
   window.location = "/template/home.html";
 }
 
-function saveTasks() {
+async function saveTasks() {
   const task = document.getElementById("task-name").value.trim();
   const taskDate = document.getElementById("task-date").value;
   const taskTime = document.getElementById("task-time").value;
@@ -51,10 +51,10 @@ function saveTasks() {
     longitude: parseFloat(taskLongitude),
   };
 
-  saveGeolocalizacion(geolocalizacion);
-
   try {
-    const geolocalizacionId = getGeolocalizacionId(geolocalizacion);
+    await saveGeolocalizacion(geolocalizacion);
+
+    const geolocalizacionId = await getGeolocalizacionId(geolocalizacion);
     const userId = getConcurrentUser();
     db.transaction(function (tx) {
       tx.executeSql(
@@ -66,9 +66,9 @@ function saveTasks() {
             lista: task,
             fecha: taskDate,
             hora: taskTime,
-            priority:taskImportance,
+            priority: taskImportance,
             idGeo: geolocalizacionId,
-            iduser: userId
+            iduser: userId,
           });
           ons.notification.alert("Tarea guardada exitosamente");
           //closeAddTaskPage();
@@ -82,7 +82,7 @@ function saveTasks() {
     ons.notification.alert("Error al guardar la tarea");
     console.error(error);
   }
-};
+}
 
 //Función no implementada
 const getTasksFromDB = async () => {
@@ -125,6 +125,34 @@ const removeTask = (taskId, taskItem) => {
   });
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-  initMap();
+// document.addEventListener("DOMContentLoaded", function (event) {
+//   const page = event.target;
+
+//   // Asegúrate de que initMap está disponible
+//   if (typeof initMap === "function") {
+//     initMap();
+//   } else {
+//     console.error("initMap is not defined");
+//   }
+
+// });
+
+// document.addEventListener("init", function (event) {
+//   const page = event.target;
+
+//   const save = saveTasks();
+//   page.querySelector("#save-tasks-button").onclick = function () {
+//     console.log("guardar tareas");
+//     save;
+//   };
+// });
+
+document.addEventListener("DOMContentLoaded", (event) => {
+  // initMap();
+  // Select the button using its ID
+  const button = document.getElementById("save-tasks-button");
+  // Add a click event listener to the button
+  button.addEventListener("click", async () => {
+    await saveTasks();
+  });
 });

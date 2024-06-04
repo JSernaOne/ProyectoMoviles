@@ -33,11 +33,11 @@ const saveUser = async (user) => {
 
 // obtener a id del usuario con inicio de sesión JWT
 const getConcurrentUser = async () => {
-  const token = localStorage.getItem("token");
+  const token = JSON.parse(localStorage.getItem("token"));
   if (token){
     const id = jwt_decode(token).id;
     //devolver el entero del id
-    console.log("id del usuario: ", parseInt(id));
+    console.log("id del usuario: ",id);
     return parseInt(id);
   }
 
