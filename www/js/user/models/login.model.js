@@ -26,11 +26,10 @@ const registerUser = async (name, username, email, password, phone) => {
     salt: salt,
     phone: phone,
   });
-  
 };
 // generar salt aleatorio para la contraseña
 const generateSalt = () => {
-  // Generar una cadena de sal aleatoria, por ejemplo, utilizando una función criptográficamente segura
+  // Generar una cadena de sal aleatoria, por ejemplo
   return (
     Math.random().toString(36).substring(2, 15) +
     Math.random().toString(36).substring(2, 15)
@@ -66,7 +65,7 @@ const viewUsers = async () => {
       for (var i = 0; i < res.rows.length; i++) {
         var user = res.rows.item(i);
         var item = document.createElement("ons-list-item");
-        item.innerHTML = "Username: " + user.name + " - Correo: " + user.email + " - Last login: " + user.last_login;
+        item.innerHTML = "Username: " + user.name + " - Correo: " + user.email;
         users.appendChild(item);
       }
     });
@@ -101,7 +100,6 @@ const loginUser = async (email, password) => {
             const loginSuccess = await login(loginJson);
             if (loginSuccess) {
               updateLastLogin(id);
-              window.location.href = "/template/home.html";
             } else {
               ons.notification.alert("Error al iniciar sesión en la nube.");
             }
@@ -120,11 +118,14 @@ const loginUser = async (email, password) => {
 };
 
 // actualizar last_login
+//aspectos a tener en cuenta en la función updateLastLogin no esta funcionando correctamente
+//se debe de revisar la función para que pueda funcionar correctamente
 const updateLastLogin = (id) => {
+  let syncTime = getCurrentDateTime();
   db.transaction(function (tx) {
     tx.executeSql(
       "UPDATE User SET last_login = ? WHERE id = ?",
-      [new Date().toLocaleString(), id],
+      [syncTime, id],
       function (tx, res) {
         console.log("last_login actualizado.");
       },
@@ -135,12 +136,12 @@ const updateLastLogin = (id) => {
       }
     );
   });
-}
+};
 
 // Validar campos del formulario
-const validateFields = (fields) =>{
+const validateFields = (fields) => {
   return fields.every((field) => field.trim() !== "");
-}
+};
 
 // validar nombres de usuario
 // Sin simbolos especiales, ni numros
@@ -153,21 +154,21 @@ const validateFields = (fields) =>{
 const validateName = (name) => {
   const pattern = /^[A-Z]+$/i; // Expresión regular para validar solo letras en mayúsculas y minúsculas
   return pattern.test(name);
-}
+};
 
-function validateEmail(email) {
+const validateEmail = (email) => {
   const pattern = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/; // Expresión regular para validar un email
   return pattern.test(email);
-}
+};
 
 //validar numero de telefono
-const validatePhone = (phone) =>{
+const validatePhone = (phone) => {
   if (phone.length < 10) {
     return false;
   }
   const pattern = /^[0-9]+$/; // Expresión regular para validar solo números
   return pattern.test(phone);
-}
+};
 
 // evento de inicialización de la aplicación con Onsen UI para cargar las páginas de la aplicación
 document.addEventListener("init", function (event) {

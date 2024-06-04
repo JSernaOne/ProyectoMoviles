@@ -8,7 +8,13 @@
     <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css">
     <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.min.css">
     <link rel="stylesheet" href="../css/Style/task-style.css">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOr4tiznICsTgUolq99SYbtazjd0aFbAE&callback=initMap"></script>
+
+    <script src="../js/config/myBD.js"></script>
+    <script src="../js/config/sync.config.js"></script>
+
+    <!-- importar jwt decode -->
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+
 </head>
 <body>
 <ons-page id="add-task-page">
@@ -68,15 +74,21 @@
         <ons-input type="hidden" id="task-latitude"></ons-input>
         <ons-input type="hidden" id="task-longitude"></ons-input>
 
-        <ons-button onclick="saveTask()">Guardar Tarea</ons-button>
+        <ons-button onclick="saveTasks()">Guardar Tarea</ons-button>
     </div>
 </ons-page>
 
 <script src="../cordova.js"></script>
 <script src="../lib/onsenui/js/onsenui.min.js"></script>
 
-<script src="../js/tasks/models/task.model.js"></script>
+<script src="../js/index.js"></script>
+<script src="../js/user/models/user.model.js"></script>
 <script src="../js/geolocalizacion/models/geolo.model.js"></script>
+<script src="../js/geolocalizacion/services/geolo.service.js"></script>
+<script src="../js/tasks/models/task.model.js"></script> 
+<script src="../js/tasks/services/task.service.js"></script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOr4tiznICsTgUolq99SYbtazjd0aFbAE&callback=initMap"></script>
 
 
 </body>

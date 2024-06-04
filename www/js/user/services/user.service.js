@@ -32,10 +32,11 @@ const login = async (user) => {
     if (response.status === 200) {
       const data = await response.json();
       console.log("Data:", data);
-
       // Guardar token y usuario en localStorage para mantener la sesión
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+
+      window.location.href = "/template/home.html";
       return true;
     } else if (response.status === 401) {
       ons.notification.alert("Usuario o contraseña incorrectos");

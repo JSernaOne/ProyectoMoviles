@@ -17,9 +17,9 @@ function onDeviceReady() {
             phone TEXT,
             status BIT DEFAULT 1,
             show_quote BOOLEAN DEFAULT TRUE, 
-            last_login DATETIME DEFAULT CURRENT_TIMESTAMP,
+            last_login TEXT DEFAULT NULL,
             sync_status BIT DEFAULT 0, 
-            last_sync DATETIME DEFAULT NULL
+            last_sync TEXT DEFAULT NULL
         )`, [], function(tx, res) {
             console.log('Tabla de usuarios creada exitosamente.');
         }, function(tx, error) {
@@ -29,10 +29,10 @@ function onDeviceReady() {
         // Crear tabla de geolocalización si no existe
         tx.executeSql(`CREATE TABLE IF NOT EXISTS Geolocalizacion (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            latitude NUMBER,s
+            latitude NUMBER,
             longitude NUMBER,
             sync_status BIT DEFAULT 0, 
-            last_sync DATETIME DEFAULT NULL
+            last_sync TEXT DEFAULT NULL
         )`, [], function(tx, res) {
             console.log('Tabla de geolocalización creada exitosamente.');
         }, function(tx, error) {
@@ -49,8 +49,8 @@ function onDeviceReady() {
             idGeo INTEGER,
             iduser INTEGER,
             sync_status BIT DEFAULT 0, 
-            last_sync DATETIME DEFAULT NULL,
-            estado Bit DEFAULT 1,
+            last_sync TEXT DEFAULT NULL,
+            estado Bit DEFAULT 0,
             FOREIGN KEY (iduser) REFERENCES User(id),
             FOREIGN KEY (idGeo) REFERENCES Geolocalizacion(id)
         )`, [], function(tx, res) {
@@ -65,7 +65,7 @@ function onDeviceReady() {
             quote TEXT,
             author TEXT,
             sync_status BIT DEFAULT 0, 
-            last_sync DATETIME DEFAULT NULL
+            last_sync TEXT DEFAULT NULL
         )`, [], function(tx, res) {
             console.log('Tabla de frases motivacionales creada exitosamente.');
         }, function(tx, error) {
@@ -80,7 +80,7 @@ function onDeviceReady() {
             foto_perfil TEXT DEFAULT NULL,
             theme TEXT DEFAULT 'light',
             sync_status BIT DEFAULT 0, 
-            last_sync DATETIME DEFAULT NULL,
+            last_sync TEXT DEFAULT NULLL,
             FOREIGN KEY (user_id) REFERENCES User(id)
         )`, [], function(tx, res) {
             console.log('Tabla de configuración creada exitosamente.');

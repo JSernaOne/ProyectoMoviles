@@ -1,64 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <meta name="color-scheme" content="light dark"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="color-scheme" content="light dark" />
 
     <title>Home</title>
 
-    <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css"/>
-    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.min.css"/>
-    <link rel="stylesheet" href="../css/Style/fade-out.css">
-    <link rel="stylesheet" href="../css/Style/loading-spinner.css">
-    <link rel="stylesheet" href="../css/Style/home-style.css">
+    <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css" />
+    <link
+      rel="stylesheet"
+      href="../lib/onsenui/css/onsen-css-components.min.css"
+    />
+    <link rel="stylesheet" href="../css/Style/fade-out.css" />
+    <link rel="stylesheet" href="../css/Style/loading-spinner.css" />
+    <link rel="stylesheet" href="../css/Style/home-style.css" />
 
     <script src="../js/config/myBD.js"></script>
     <script src="../js/config/sync.config.js"></script>
+  </head>
+  <body>
+    <ons-navigator
+      swipeable
+      id="myNavigator"
+      page="inicio.html"
+    ></ons-navigator>
 
-</head>
-<body>
-<ons-navigator swipeable id="myNavigator" page="inicio.html"></ons-navigator>
-
-<template id="inicio.html">
-    <ons-page id="inicio">
+    <template id="inicio.html">
+      <ons-page id="inicio">
         <ons-toolbar>
-            <div class="center">Home</div>
+          <div class="center">Home</div>
         </ons-toolbar>
 
-        <div style="text-align: center; margin-top: 50px;">
-            <h3 id="welcome-message">Bienvenido</h3>
-            <p id="motivational-quote">Frase Motivacional</p>
-            <p id="current-date">Fecha Actual</p>
-            <ons-button id="add-task-button" class="task-list">Agregar tarea</ons-button>
+        <div style="text-align: center; margin-top: 50px">
+          <h3 id="welcome-message">Bienvenido</h3>
+          <p id="motivational-quote">Frase Motivacional</p>
+          <p id="current-date">Fecha Actual</p>
+          <ons-button id="add-task-button" class="task-list"
+            >Agregar tarea</ons-button
+          >
         </div>
 
-        <ons-list id="task-list">
-            <ons-list-header>Lista de Tareas</ons-list-header>
-            <!-- Aquí se agregarán las tareas dinámicamente -->
+
+        <p style="margin-top: 20px; margin-left: 10px">
+            <ons-button id="show-tasks-button">Mostrar tareas</ons-button>
+          </p>
+          <ons-list
+            id="tasks-list"
+            style="margin-left: 10px; margin-top: 20px; margin-right: 10px"
+          >
+            <ons-list-header>Tareas</ons-list-header>
         </ons-list>
 
         <ons-bottom-toolbar>
-            <div style="text-align: center;">
-                <ons-button id="push-button" style="margin: 10px;" class="action-button">Localización</ons-button>
-                <ons-button id="edit" style="margin: 10px;" class="action-button">Editar</ons-button>
-                <ons-button id="volver" style="margin: 10px;" class="action-button">Volver</ons-button>
-            </div>
+          <div style="text-align: center">
+            <ons-button
+              id="push-button"
+              style="margin: 10px"
+              class="action-button"
+              >Localización</ons-button
+            >
+            <ons-button id="edit" style="margin: 10px" class="action-button"
+              >Editar</ons-button
+            >
+            <ons-button id="volver" style="margin: 10px" class="action-button"
+              >Volver</ons-button
+            >
+          </div>
         </ons-bottom-toolbar>
-    </ons-page>
-</template>
+      </ons-page>
+    </template>
 
-<!-- Spinner de carga -->
-<ons-progress-circular id="loading-spinner" indeterminate></ons-progress-circular>
+    <!-- Spinner de carga -->
+    <ons-progress-circular
+      id="loading-spinner"
+      indeterminate
+    ></ons-progress-circular>
 
-<script src="../cordova.js"></script>
-<script src="../js/index.js"></script>
-<script src="../js/home.js"></script>
-<script src="../lib/onsenui/js/onsenui.min.js"></script>
+    <script src="../cordova.js"></script>
+    <script src="../lib/onsenui/js/onsenui.min.js"></script>
 
-<script src = "../js/user/models/login.model.js"></script>
-</body>
+    <script src="../js/index.js"></script>
+    <script src="../js/home.js"></script>
+    <script src="../js/tasks/models/task.model.js"></script>
+    <script src="../js/tasks/services/task.service.js"></script>
+  </body>
 </html>
-
-

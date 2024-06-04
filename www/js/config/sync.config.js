@@ -12,9 +12,10 @@ const syncLocalToServer = async () => {
         body: JSON.stringify(localData),
       }
     );
+
     if (response.status === 200) {
       console.log("Datos sincronizados exitosamente al servidor.");
-      await markDataAsSynced(localData.user); // Marcar datos como sincronizados en la base de datos local
+      await markDataAsSynced(localData); // Marcar datos como sincronizados en la base de datos local
     } else {
       console.error(
         "Falló la sincronización al servidor:",
@@ -26,39 +27,102 @@ const syncLocalToServer = async () => {
   }
 };
 
-const markDataAsSynced = async (users) => {
+const markDataAsSynced = async (localData) => {
   db.transaction((tx) => {
-    users.forEach((user) => {
+    localData.users.forEach((user) => {
       tx.executeSql("UPDATE User SET sync_status = 1 WHERE id = ?", [user.id]);
+    });
+    localData.geolocalizacion.forEach((geo) => {
+      tx.executeSql("UPDATE Geolocalizacion SET sync_status = 1 WHERE id = ?", [
+        geo.id,
+      ]);
+    });
+    localData.tareas.forEach((task) => {
+      tx.executeSql("UPDATE Tareas SET sync_status = 1 WHERE id = ?", [
+        task.id,
+      ]);
     });
   });
 };
 
-// Función para obtener datos de la base de datos local y enviarlos al servidor
 const fetchUnsyncedData = async () => {
   return new Promise((resolve, reject) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM User WHERE sync_status = 0",
-        [],
-        (tx, results) => {
-          const users = [];
-          // Iterar sobre los resultados y agregarlos al array
-          for (let i = 0; i < results.rows.length; i++) {
-            users.push(results.rows.item(i));
-            
-            // modificar el last login para MYsql
-            let last_login = new Date(results.rows.item(i).last_login);
-            last_login = last_login.toISOString().slice(0, 19).replace("T", " ");
-            results.rows.item(i).last_login = last_login;
-          }
-          resolve({ user: users });
-        },
-        (error) => {
-          reject(error);
-        }
-      );
-    });
+    let userslist = [];
+    let geolocalizacionList = [];
+    let tareasList = [];
+
+    const fetchUsers = () => {
+      return new Promise((res, rej) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM User WHERE sync_status = 0",
+            [],
+            (tx, results) => {
+              for (let i = 0; i < results.rows.length; i++) {
+                userslist.push(results.rows.item(i));
+              }
+              res();
+            },
+            (error) => {
+              console.error("Error fetching users:", error.message);
+              rej(error);
+            }
+          );
+        });
+      });
+    };
+
+    const fetchGeolocalizacion = () => {
+      return new Promise((res, rej) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM Geolocalizacion WHERE sync_status = 0",
+            [],
+            (tx, results) => {
+              for (let i = 0; i < results.rows.length; i++) {
+                geolocalizacionList.push(results.rows.item(i));
+              }
+              res();
+            },
+            (error) => {
+              console.error("Error fetching geolocalizacion:", error.message);
+              rej(error);
+            }
+          );
+        });
+      });
+    };
+
+    const fetchTareas = () => {
+      return new Promise((res, rej) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM Tareas WHERE sync_status = 0",
+            [],
+            (tx, results) => {
+              for (let i = 0; i < results.rows.length; i++) {
+                tareasList.push(results.rows.item(i));
+              }
+              res();
+            },
+            (error) => {
+              console.error("Error fetching tareas:", error.message);
+              rej(error);
+            }
+          );
+        });
+      });
+    };
+
+    Promise.all([fetchUsers(), fetchGeolocalizacion(), fetchTareas()])
+      .then(() => {
+        resolve({
+          users: userslist,
+          geolocalizacion: geolocalizacionList,
+          tareas: tareasList,
+        });
+      })
+      .catch(reject);
   });
 };
 
@@ -84,6 +148,8 @@ const syncFromServer = async () => {
 
 const updateLocalDatabase = async (serverData) => {
   const { user } = serverData;
+  const { geolocalizacion } = serverData;
+  const { tareas } = serverData;
   db.transaction(function (tx) {
     user.forEach((u) => {
       tx.executeSql(
@@ -101,6 +167,35 @@ const updateLocalDatabase = async (serverData) => {
           u.last_login,
           u.sync_status,
           u.last_sync,
+        ]
+      );
+    });
+  });
+
+  db.transaction(function (tx) {
+    geolocalizacion.forEach((geo) => {
+      tx.executeSql(
+        "INSERT OR REPLACE INTO Geolocalizacion (id, latitude, longitude, sync_status, last_sync) VALUES (?, ?, ?, ?, ?)",
+        [geo.id, geo.latitud, geo.longitud, geo.sync_status, geo.last_sync]
+      );
+    });
+  });
+
+  db.transaction(function (tx) {
+    tareas.forEach((task) => {
+      tx.executeSql(
+        "INSERT OR REPLACE INTO Tareas (id, lista, fecha, hora, priority, idGeo, iduser, sync_status, last_sync, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          task.id,
+          task.lista,
+          task.fecha,
+          task.hora,
+          task.priority,
+          task.idGeo,
+          task.iduser,
+          task.sync_status,
+          task.last_sync,
+          task.estado,
         ]
       );
     });

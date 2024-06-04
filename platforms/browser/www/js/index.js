@@ -36,7 +36,7 @@ function onDeviceReady() {
     setInterval(function() {
         syncLocalToServer();
         syncFromServer();
-    }, 60000); // Sincroniza cada minuto
+    }, 30000); // Sincronizar cada 30 segundos
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
@@ -53,3 +53,15 @@ document.addEventListener('init', function(event) {
     page.querySelector('ons-toolbar .center').innerHTML = page.data.title; // Actulizar el título de la página con el título pasado en el evento data.
   }
 });
+
+const getCurrentDateTime = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}

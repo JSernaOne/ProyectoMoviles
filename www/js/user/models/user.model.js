@@ -31,3 +31,15 @@ const saveUser = async (user) => {
   });
 };
 
+// obtener a id del usuario con inicio de sesión JWT
+const getConcurrentUser = async () => {
+  const token = localStorage.getItem("token");
+  if (token){
+    const id = jwt_decode(token).id;
+    //devolver el entero del id
+    console.log("id del usuario: ", parseInt(id));
+    return parseInt(id);
+  }
+
+}
+

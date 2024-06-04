@@ -1,3 +1,4 @@
+
 // guardar geolocalizacion en la base de datos 
 const saveGeolocalizacion = async (geolocalizacion) => {
     db.transaction(function(tx) {
@@ -6,6 +7,7 @@ const saveGeolocalizacion = async (geolocalizacion) => {
             [geolocalizacion.latitude, geolocalizacion.longitude],
             function(tx, res) {
                 console.log('Geolocalización guardada exitosamente.');
+                saveGeolocalizacionCloude(geolocalizacion);
             },
             function(tx, error) {
                 console.error('Error al guardar la geolocalización: ' + error.message);
@@ -22,7 +24,8 @@ const getGeolocalizacionId = async (geolocalizacion) => {
                 `SELECT id FROM Geolocalizacion WHERE latitude = ? AND longitude = ?`,
                 [geolocalizacion.latitude, geolocalizacion.longitude],
                 function(tx, res) {
-                    resolve(res.rows[0].id);
+                    const id = res.rows[0].id;
+                    resolve(parseInt(id, 10));
                 },
                 function(tx, error) {
                     console.error('Error al obtener la geolocalización: ' + error.message);
