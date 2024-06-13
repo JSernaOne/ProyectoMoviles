@@ -153,7 +153,7 @@ const updateLocalDatabase = async (serverData) => {
   db.transaction(function (tx) {
     user.forEach((u) => {
       tx.executeSql(
-        "INSERT OR REPLACE INTO User (id, name, email, username, password, salt, phone, status, show_quote, last_login, sync_status, last_sync) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT OR REPLACE INTO User (id, name, email, username, password, salt, phone, status, last_login, sync_status, last_sync) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           u.id,
           u.name,
@@ -163,7 +163,6 @@ const updateLocalDatabase = async (serverData) => {
           u.salt,
           u.phone,
           u.status,
-          u.show_quote,
           u.last_login,
           u.sync_status,
           u.last_sync,

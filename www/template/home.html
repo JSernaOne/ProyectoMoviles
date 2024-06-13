@@ -19,9 +19,15 @@
     <link rel="stylesheet" href="../css/Style/fade-out.css" />
     <link rel="stylesheet" href="../css/Style/loading-spinner.css" />
     <link rel="stylesheet" href="../css/Style/home-style.css" />
+    <link rel="stylesheet" href="../css/assetsFile\bottons.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
 
     <script src="../js/config/myBD.js"></script>
     <script src="../js/config/sync.config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
   </head>
   <body>
     <ons-navigator
@@ -38,44 +44,38 @@
 
         <div style="text-align: center; margin-top: 50px">
           <h3 id="welcome-message">Bienvenido</h3>
-          <p id="motivational-quote">Frase Motivacional</p>
+          <p id="motivational-quote"></p>
+          <p id="autor-quote"></p>
           <p id="current-date">Fecha Actual</p>
           <ons-button id="add-task-button" class="task-list"
             >Agregar tarea</ons-button
           >
         </div>
 
-
         <p style="margin-top: 20px; margin-left: 10px">
-            <ons-button id="show-tasks-button">Mostrar tareas</ons-button>
-          </p>
-          <ons-list
-            id="tasks-list"
-            style="margin-left: 10px; margin-top: 20px; margin-right: 10px"
-          >
-            <ons-list-header>Tareas</ons-list-header>
+          <ons-button id="show-tasks-button">Mostrar tareas</ons-button>
+        </p>
+        <ons-list
+          id="tasks-list"
+          style="margin-left: 10px; margin-top: 20px; margin-right: 10px"
+        >
+          <ons-list-header>Tareas</ons-list-header>
         </ons-list>
 
-        <ons-bottom-toolbar>
-          <div style="text-align: center">
-            <ons-button
-              id="push-button"
-              style="margin: 10px"
-              class="action-button"
-              >Localización</ons-button
-            >
-            <ons-button id="edit" style="margin: 10px" class="action-button"
-              >Editar</ons-button
-            >
-            <ons-button id="volver" style="margin: 10px" class="action-button"
-              >Volver</ons-button
-            >
-          </div>
-        </ons-bottom-toolbar>
+        <div class="bottom-toolbar-container">
+          <ons-button id="map" class="bottom-toolbar-button">
+            <i class="fas fa-location-dot"></i>
+          </ons-button>
+          <ons-button id="config" class="bottom-toolbar-button">
+            <i class="fas fa-gear"></i>
+          </ons-button>
+          <ons-button id="volver" class="bottom-toolbar-button">
+            <i class="fas fa-arrow-left"></i>
+          </ons-button>
+        </div>
       </ons-page>
     </template>
 
-    <!-- Spinner de carga -->
     <ons-progress-circular
       id="loading-spinner"
       indeterminate
@@ -88,5 +88,8 @@
     <script src="../js/home.js"></script>
     <script src="../js/tasks/models/task.model.js"></script>
     <script src="../js/tasks/services/task.service.js"></script>
+    <script src="../js/geolocalizacion/models/geolo.model.js"></script>
+    <script src="../js/geolocalizacion/services/geolo.service.js"></script>
+    <script src="../js/user/models/user.model.js"></script>
   </body>
 </html>

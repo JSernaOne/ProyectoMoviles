@@ -22,7 +22,7 @@ const placeMarker = (location) => {
     marker.setPosition(location);
   }
 
-  // mostrar latitud y longitud en los campos de texto
+  // Mostrar latitud y longitud en los campos de texto
   document.getElementById("task-latitude").value = location.lat();
   document.getElementById("task-longitude").value = location.lng();
 };
@@ -53,14 +53,13 @@ async function saveTasks() {
 
   try {
     await saveGeolocalizacion(geolocalizacion);
-
     const geolocalizacionId = await getGeolocalizacionId(geolocalizacion);
-    const userId = getConcurrentUser();
+    const userId = await getConcurrentUser(); // Asegúrate de esperar la promesa
+
     db.transaction(function (tx) {
       tx.executeSql(
         "INSERT INTO Tareas (lista, fecha, hora, priority, idGeo, iduser) VALUES (?, ?, ?, ?, ?, ?)",
         [task, taskDate, taskTime, taskImportance, geolocalizacionId, userId],
-
         function (tx, res) {
           saveTasksCloude({
             lista: task,
@@ -71,7 +70,6 @@ async function saveTasks() {
             iduser: userId,
           });
           ons.notification.alert("Tarea guardada exitosamente");
-          //closeAddTaskPage();
         },
         function (tx, error) {
           console.error("Error al guardar la tarea: " + error.message);
@@ -84,33 +82,36 @@ async function saveTasks() {
   }
 }
 
-//Función no implementada
-const getTasksFromDB = async () => {
-  db.transaction(function (tx) {
-    tx.executeSql(
-      `SELECT Tareas.id, Tareas.lista, Tareas.fecha, Tareas.hora, Tareas.priority, 
-      Geolocalizacion.latitude, Geolocalizacion.longitude 
-                 FROM Tareas 
-                 INNER JOIN Geolocalizacion ON Tareas.idGeo = Geolocalizacion.id`,
-      [],
-      function (tx, res) {
-        const tasks = [];
-        for (let i = 0; i < res.rows.length; i++) {
-          tasks.push(res.rows.item(i));
+const getTasksFromDB = (userId) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(function (tx) {
+      tx.executeSql(
+        `SELECT Tareas.id, Tareas.lista, Tareas.fecha, Tareas.hora, Tareas.priority, 
+        Geolocalizacion.latitude, Geolocalizacion.longitude 
+        FROM Tareas 
+        INNER JOIN Geolocalizacion ON Tareas.idGeo = Geolocalizacion.id
+        WHERE Tareas.estado = 1 AND Tareas.iduser = ?`,
+        [userId],
+        function (tx, res) {
+          const tasks = [];
+          for (let i = 0; i < res.rows.length; i++) {
+            tasks.push(res.rows.item(i));
+          }
+          resolve(tasks);
+        },
+        function (tx, error) {
+          console.error("Error al obtener las tareas: " + error.message);
+          reject(error);
         }
-        return tasks;
-      },
-      function (tx, error) {
-        console.error("Error al obtener las tareas: " + error.message);
-      }
-    );
+      );
+    });
   });
 };
 
 const removeTask = (taskId, taskItem) => {
   db.transaction(function (tx) {
     tx.executeSql(
-      "DELETE FROM Tareas WHERE id = ?",
+      "UPDATE Tareas SET estado = 0 WHERE id = ?",
       [taskId],
       function (tx, res) {
         taskItem.remove();
@@ -125,33 +126,9 @@ const removeTask = (taskId, taskItem) => {
   });
 };
 
-// document.addEventListener("DOMContentLoaded", function (event) {
-//   const page = event.target;
-
-//   // Asegúrate de que initMap está disponible
-//   if (typeof initMap === "function") {
-//     initMap();
-//   } else {
-//     console.error("initMap is not defined");
-//   }
-
-// });
-
-// document.addEventListener("init", function (event) {
-//   const page = event.target;
-
-//   const save = saveTasks();
-//   page.querySelector("#save-tasks-button").onclick = function () {
-//     console.log("guardar tareas");
-//     save;
-//   };
-// });
-
 document.addEventListener("DOMContentLoaded", (event) => {
-  // initMap();
-  // Select the button using its ID
+  initMap();
   const button = document.getElementById("save-tasks-button");
-  // Add a click event listener to the button
   button.addEventListener("click", async () => {
     await saveTasks();
   });

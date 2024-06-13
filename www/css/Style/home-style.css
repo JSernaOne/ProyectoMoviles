@@ -2,6 +2,8 @@ body {
     font-weight: bold;
     color: #333;
     background-color: #2980b9;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
 ons-toolbar {
@@ -17,24 +19,28 @@ ons-toolbar {
 .content {
     text-align: center;
     margin-top: 50px;
+    padding: 20px;
 }
 
 h3 {
     font-size: 25px;
     font-weight: bold;
     color: #0400ff;
+    margin-bottom: 15px;
 }
 
 p#motivational-quote {
     font-size: 16px;
-    font-style: italic; /* Texto inclinado */
-    color: #343535; 
+    font-style: italic;
+    color: #343535;
+    margin: 10px 0;
 }
 
 p#current-date {
     font-size: 16px;
-    font-family: 'Courier New', Courier, monospace; /* Fuente más cuadrada */
-    color: #363636; 
+    font-family: 'Courier New', Courier, monospace;
+    color: #363636;
+    margin: 10px 0;
 }
 
 .action-button {
@@ -43,37 +49,81 @@ p#current-date {
     font-size: 16px;
     border-radius: 8px;
     margin: 10px 0;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
 }
 
 .action-button:active {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Agrega una sombra al botón cuando se presiona */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .task-list {
     margin: 20px 10px;
-    background-color: #06bb2a;
+    background-color: #3d94c7;
     color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
 }
 
 .task-list:active {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Agrega una sombra al botón cuando se presiona */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 ons-list-header {
     font-size: 18px;
     color: #34495e;
+    font-weight: bold;
+    margin: 10px 0;
 }
 
-.bottom-toolbar {
-    text-align: center;
-    background-color: #f39c12;
-    border-top: 1px solid #ddd;
+.bottom-toolbar-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: transparent;
+    padding: 10px 0;
+    box-shadow: none;
+    transition: transform 0.3s ease-in-out;
 }
 
-.bottom-toolbar .action-button {
-    background-color: #2980b9;
-    color: #fff;
-    font-size: 16px;
-    border-radius: 8px;
-    margin: 10px;
+.bottom-toolbar-container.hidden {
+    transform: translateY(100%);
+}
+
+.bottom-toolbar-button {
+    margin: 0 15px;
+    background-color: #ffffff;
+    color: #161515;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.bottom-toolbar-button:active {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.bottom-toolbar-button i {
+    font-size: 24px;
+    color: inherit;
+}
+
+ons-bottom-toolbar {
+    background-color: transparent;
+    box-shadow: none;
 }

@@ -1,0 +1,28 @@
+.delete-button {
+    background-color: transparent;
+    border: none;
+    color: #2980b9;
+    font-size: 20px;
+    margin-left: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .delete-button:hover {
+    color: #1c5985;
+  }
+  
+  .right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .right ons-button {
+    margin-left: 5px;
+  }
+  
+  .right i {
+    pointer-events: none; /* Prevent click event on icons */
+  }
+  

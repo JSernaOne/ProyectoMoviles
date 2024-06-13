@@ -36,7 +36,7 @@ function onDeviceReady() {
     setInterval(function() {
         syncLocalToServer();
         syncFromServer();
-    }, 30000); // Sincronizar cada 30 segundos
+    }, 10000); // Sincronizar cada 10 segundos
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
