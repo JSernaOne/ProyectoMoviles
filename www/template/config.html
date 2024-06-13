@@ -1,45 +1,111 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Editar Perfil</title>
 
-    <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css">
-    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.min.css">
-    <link rel="stylesheet" href="../css/Style/perfil-style.css">
+    <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css" />
+    <link rel="stylesheet" href="../lib/onsenui/css/" />
+    
+    <link
+      rel="stylesheet"
+      href="../lib/onsenui/css/onsen-css-components.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <script src="../lib/js-sha256/build/sha256.min.js"></script>
+    <script src="../js/config/myBD.js"></script>
+    <script src="../js/config/sync.config.js"></script>
+  </head>
+  <body>
+    <ons-navigator
+      swipeable
+      id="myNavigator"
+      page="configuracion.html"
+    ></ons-navigator>
 
-</head>
-<body>
-    <div class="container">
-        <div class="photo">
-            <!-- <img src="foto-placeholder.png" alt="Foto de perfil"> -->
+    <template id="configuracion.html">
+      <ons-page id="configuracion">
+        <ons-toolbar>
+          <div class="center">configuracion</div>
+        </ons-toolbar>
+        <div style="text-align: center; margin-top: 30px">
+          <p>
+            <ons-input
+              id="nombre"
+              modifier="underbar"
+              placeholder="Nombre"
+              float
+              data-type="text"
+              minlength="3"
+              maxlength="50"
+            ></ons-input>
+          </p>
+
+          <p>
+            <ons-input
+              id="username_register"
+              modifier="underbar"
+              placeholder="Username"
+              float
+              data-type="text"
+              minlength="3"
+              maxlength="32"
+            ></ons-input>
+          </p>
+          <p>
+            <ons-input
+              id="correo"
+              modifier="underbar"
+              placeholder="Correo"
+              float
+              data-type="email"
+              minlength="3"
+              maxlength="70"
+            ></ons-input>
+          </p>
+          <p>
+            <ons-input
+              id="contrasena"
+              modifier="underbar"
+              type="password"
+              placeholder="Contrasena"
+              float
+            ></ons-input>
+          </p>
+          <p>
+            <ons-input
+              id="telefono"
+              modifier="underbar"
+              placeholder="Telefono"
+              float
+              data-type="tel"
+              minlength="10"
+              maxlength="10"
+            ></ons-input>
+          </p>
+          <p>
+            <ons-button id="updateUser-button">Actualizar</ons-button>
+          </p>
         </div>
-        <form>
-            <div class="form-group">
-                <label for="usuario">USUARIO</label>
-                <input type="text" id="usuario" name="usuario">
-            </div>
-            <div class="form-group">
-                <label for="contrasena">Contraseña</label>
-                <input type="password" id="contrasena" name="contrasena">
-            </div>
-            <div class="form-group">
-                <label for="correo">Correo</label>
-                <input type="email" id="correo" name="correo">
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono</label>
-                <input type="tel" id="telefono" name="telefono">
-            </div>
-            <div class="save-button">
-                <button type="submit">Guardar</button>
-            </div>
-        </form>
-    </div>
-</body>
 
-<script src="../cordova.js"></script>
-<script src="../lib/onsenui/js/onsenui.min.js"></script>
+        <div class="bottom-toolbar-container">
+          <ons-button id="volver" class="bottom-toolbar-button">
+            <i class="fas fa-arrow-left"></i>
+          </ons-button>
+        </div>
+      </ons-page>
+    </template>
 
+    <script src="../cordova.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../lib/onsenui/js/onsenui.min.js"></script>
+
+    <script src="../js/config.js"></script>
+    <script src="../js//user/models/user.model.js"></script>
+    <script src="../js//user/services/user.service.js"></script>
+  </body>
 </html>

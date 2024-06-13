@@ -53,6 +53,30 @@ const saveUser = async (user) => {
   }
 };
 
+const updateUser = async (user) => {
+  try {
+    await new Promise((resolve, reject) => {
+      const token = localStorage.getItem("token");
+      db.transaction((tx) => {
+        tx.executeSql(
+          "UPDATE User SET name = ?, username = ?, phone = ? WHERE id = ?",
+          [user.name, user.username, user.phone, token.id],
+          (tx, res) => {
+            console.log("Usuario actualizado exitosamente.");
+            //updateUserCloud(user);
+            resolve();
+          },
+          (tx, error) => {
+            reject(new Error("Error actualizando usuario: " + error.message));
+          }
+        );
+      });
+    });
+
+  } catch (error) {
+    ons.notification.alert(error.message);
+  }
+}
 
 // obtener a id del usuario con inicio de sesión JWT
 const getConcurrentUser = async () => {
