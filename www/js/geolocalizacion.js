@@ -12,7 +12,7 @@ function initMap() {
 }
 
 function closeAddTaskPage() {
-    window.location = '/template/home.html';
+    window.location = "/template/home.html";
 }
 
 function todos() {
