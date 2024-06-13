@@ -31,10 +31,9 @@ const login = async (user) => {
 
     if (response.status === 200) {
       const data = await response.json();
-      console.log("Data:", data);
       // Guardar token y usuario en localStorage para mantener la sesión
       localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      //localStorage.setItem("user", JSON.stringify(data.user));
 
       window.location.href = "/template/home.html";
       return true;
@@ -51,3 +50,24 @@ const login = async (user) => {
     return false;
   }
 };
+
+const updateUserCloud = async (user) => {
+  try {
+    const response = await fetch(`http://localhost:3050/api/users/${user.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (response.status === 200) {
+      ons.notification.alert("Usuario actualizado exitosamente");
+    } else {
+      ons.notification.alert("Error al actualizar el usuario");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}

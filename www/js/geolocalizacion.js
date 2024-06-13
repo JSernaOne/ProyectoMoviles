@@ -11,7 +11,7 @@ function initMap() {
     loadTaskMarkers(); // Cargar los marcadores de las tareas almacenadas
 }
 
-function closeAddTaskPage() {
+function closeMap() {
     window.location = "/template/home.html";
 }
 

@@ -1,97 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Agregar Tarea</title>
 
-    <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css">
-    <link rel="stylesheet" href="../lib/onsenui/css/onsen-css-components.min.css">
-    <link rel="stylesheet" href="../css/Style/task-style.css">
+    <link rel="stylesheet" href="../lib/onsenui/css/onsenui-core.min.css" />
+    <link
+      rel="stylesheet"
+      href="../lib/onsenui/css/onsen-css-components.min.css"
+    />
+    <link rel="stylesheet" href="../css/Style/task-style.css" />
 
     <script src="../js/config/myBD.js"></script>
     <script src="../js/config/sync.config.js"></script>
 
     <!-- importar jwt decode -->
     <script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
-
-</head>
-<body>
-<ons-page id="add-task-page">
-    <ons-toolbar>
-        <div class="center">Agregar Tarea</div>
-        <div class="right">
-            <ons-toolbar-button onclick="closeAddTaskPage()">Cerrar</ons-toolbar-button>
+  </head>
+  <body>
+    <ons-page id="add-task-page">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button onclick="closeAddTaskPage()"></ons-back-button>
         </div>
-    </ons-toolbar>
+        <div class="center">Agregar Tarea</div>
+      </ons-toolbar>
 
-    <div style="padding: 20px;">
+      <div style="padding: 20px">
         <ons-input id="task-name" placeholder="Tarea" float></ons-input>
         <p></p>
         <ons-list>
-            <ons-list-item>
-                <div class="center">
-                    <ons-input type="date" id="task-date"></ons-input>
-                </div>
-            </ons-list-item>
-            <ons-list-item>
-                <div class="center">
-                    <ons-input type="time" id="task-time"></ons-input>
-                </div>
-            </ons-list-item>
+          <ons-list-item>
+            <div class="center">
+              <ons-input type="date" id="task-date"></ons-input>
+            </div>
+          </ons-list-item>
+          <ons-list-item>
+            <div class="center">
+              <ons-input type="time" id="task-time"></ons-input>
+            </div>
+          </ons-list-item>
         </ons-list>
         <p></p>
         <ons-list>
-            <ons-list-header>Importancia</ons-list-header>
-            <ons-list-item tappable>
-                <label class="left">
-                    <ons-radio name="importance" input-id="importance-1" value="Baja"></ons-radio>
-                    <span style="color: green;">Baja</span>
-                </label>
-            </ons-list-item>
-            <ons-list-item tappable>
-                <label class="left">
-                    <ons-radio name="importance" input-id="importance-2" value="Media"></ons-radio>
-                    <span style="color: blue;">Media</span>
-                </label>
-            </ons-list-item>
-            <ons-list-item tappable>
-                <label class="left">
-                    <ons-radio name="importance" input-id="importance-3" value="Alta"></ons-radio>
-                    <span style="color: yellow;">Alta</span>
-                </label>
-            </ons-list-item>
-            <ons-list-item tappable>
-                <label class="left">
-                    <ons-radio name="importance" input-id="importance-4" value="Muy Alta"></ons-radio>
-                    <span style="color: red;">Muy Alta</span>
-                </label>
-            </ons-list-item>
+          <ons-list-header>Importancia</ons-list-header>
+          <ons-list-item tappable>
+            <label class="left">
+              <ons-radio
+                name="importance"
+                input-id="importance-1"
+                value="Baja"
+              ></ons-radio>
+              <span style="color: green">Baja</span>
+            </label>
+          </ons-list-item>
+          <ons-list-item tappable>
+            <label class="left">
+              <ons-radio
+                name="importance"
+                input-id="importance-2"
+                value="Media"
+              ></ons-radio>
+              <span style="color: blue">Media</span>
+            </label>
+          </ons-list-item>
+          <ons-list-item tappable>
+            <label class="left">
+              <ons-radio
+                name="importance"
+                input-id="importance-3"
+                value="Alta"
+              ></ons-radio>
+              <span style="color: yellow">Alta</span>
+            </label>
+          </ons-list-item>
+          <ons-list-item tappable>
+            <label class="left">
+              <ons-radio
+                name="importance"
+                input-id="importance-4"
+                value="Muy Alta"
+              ></ons-radio>
+              <span style="color: red">Muy Alta</span>
+            </label>
+          </ons-list-item>
         </ons-list>
         <p></p>
-        <div id="map" style="height: 300px; width: 100%;"></div>
-        
+        <div id="map" style="height: 300px; width: 100%"></div>
+
         <ons-input type="hidden" id="task-latitude"></ons-input>
         <ons-input type="hidden" id="task-longitude"></ons-input>
         <p></p>
         <ons-button id="save-tasks-button">Guardar Tarea</ons-button>
-    </div>
-    
-</ons-page>
+      </div>
+    </ons-page>
 
-<script src="../cordova.js"></script>
-<script src="../lib/onsenui/js/onsenui.min.js"></script>
+    <script src="../cordova.js"></script>
+    <script src="../lib/onsenui/js/onsenui.min.js"></script>
 
-<script src="../js/index.js"></script>
-<script src="../js/user/models/user.model.js"></script>
-<script src="../js/geolocalizacion/models/geolo.model.js"></script>
-<script src="../js/geolocalizacion/services/geolo.service.js"></script>
-<script src="../js/tasks/models/task.model.js"></script> 
-<script src="../js/tasks/services/task.service.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/user/models/user.model.js"></script>
+    <script src="../js/geolocalizacion/models/geolo.model.js"></script>
+    <script src="../js/geolocalizacion/services/geolo.service.js"></script>
+    <script src="../js/tasks/models/task.model.js"></script>
+    <script src="../js/tasks/services/task.service.js"></script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOr4tiznICsTgUolq99SYbtazjd0aFbAE&callback=initMap"></script>
-
-
-</body>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOr4tiznICsTgUolq99SYbtazjd0aFbAE&callback=initMap"
+    ></script>
+  </body>
 </html>
-
