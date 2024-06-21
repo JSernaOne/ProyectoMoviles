@@ -65,3 +65,11 @@ const getCurrentDateTime = () => {
 
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+
+// Verificar si el usuario ha iniciado sesión
+const checkAuth = () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "../index.html"; // Redirigir a la página de inicio de sesión si no hay token
+  }
+};

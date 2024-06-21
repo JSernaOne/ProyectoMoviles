@@ -117,6 +117,11 @@ const loginUser = async (email, password) => {
   });
 };
 
+// Cerrar sesión
+const logout = () => {
+  localStorage.removeItem("token");
+}
+
 // actualizar last_login
 //aspectos a tener en cuenta en la función updateLastLogin no esta funcionando correctamente
 //se debe de revisar la función para que pueda funcionar correctamente

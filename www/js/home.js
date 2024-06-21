@@ -1,4 +1,5 @@
 document.addEventListener("init", function (event) {
+  checkAuth()
   var page = event.target;
   if (page.id === "inicio") {
     loadInitialData();
@@ -100,15 +101,17 @@ async function displayTasks() {
   }
 }
 
-
 // Eliminar una tarea de la base de datos
 function setupEventHandlers(page) {
   page.querySelector("#add-task-button").onclick = () =>
     navigateTo("/template/add-task.html");
   page.querySelector("#map").onclick = () => navigateTo("/template/mapa.html");
-  page.querySelector("#config").onclick = () => navigateTo("/template/config.html");
-  page.querySelector("#volver").onclick = () =>
+  page.querySelector("#config").onclick = () =>
+    navigateTo("/template/config.html");
+  page.querySelector("#volver").onclick = () => {
+    logout();
     navigateTo("../index.html", 500);
+  };
   page.querySelector("#show-tasks-button").onclick = () => {
     showLoadingSpinner();
     setTimeout(() => {

@@ -66,16 +66,16 @@ function loadTaskMarkers() {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
     tasks.forEach(task => {
-        if (task.location && task.location.latitude && task.location.longitude) {
-            let taskLatLng = { lat: parseFloat(task.location.latitude), lng: parseFloat(task.location.longitude) };
+        if (task && task.latitude && task.longitude) {
+            let taskLatLng = { lat: parseFloat(task.latitude), lng: parseFloat(task.longitude) };
 
             let taskMarker = new google.maps.Marker({
                 position: taskLatLng,
                 map: map,
-                title: task.text
+                title: task.lista
             });
             const infoWindow = new google.maps.InfoWindow({
-                content: `<div class="custom-info-window"><h1>${task.text}</h1><p>Esta es la ubicación de tu tarea.</p></div>`
+                content: `<div class="custom-info-window"><h1>${task.lista}</h1><p>Esta es la ubicación de tu tarea.</p></div>`
                 });
 
             taskMarker.addListener('click', () => {
@@ -86,4 +86,8 @@ function loadTaskMarkers() {
         }
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    initMap();
+});
 

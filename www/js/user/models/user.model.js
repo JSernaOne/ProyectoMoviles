@@ -135,7 +135,7 @@ const getConcurrentUser = async () => {
     }
 
     try {
-      const payload = jwt_decode(token);
+      const payload = jwt_decode(token); // Decodificar el token JWT para obtener el payload con la información del usuario
       resolve(parseInt(payload.id)); // Asegúrate de que el ID se convierta a un número entero en base 10
     } catch (error) {
       reject(new Error("Error decodificando el token: " + error.message));

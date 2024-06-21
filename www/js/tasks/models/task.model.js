@@ -93,11 +93,18 @@ const getTasksFromDB = (userId) => {
         WHERE Tareas.estado = 1 AND Tareas.iduser = ?`,
         [userId],
         function (tx, res) {
-          const tasks = [];
-          for (let i = 0; i < res.rows.length; i++) {
-            tasks.push(res.rows.item(i));
+          try {
+            const tasks = [];
+            for (let i = 0; i < res.rows.length; i++) {
+              const task = res.rows.item(i);
+              tasks.push(task);
+            }
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+            resolve(tasks);
+          } catch (error) {
+            console.error("Error processing tasks: " + error.message);
+            reject(error);
           }
-          resolve(tasks);
         },
         function (tx, error) {
           console.error("Error al obtener las tareas: " + error.message);
@@ -107,6 +114,7 @@ const getTasksFromDB = (userId) => {
     });
   });
 };
+
 
 const removeTask = (taskId, taskItem) => {
   db.transaction(function (tx) {
@@ -127,6 +135,7 @@ const removeTask = (taskId, taskItem) => {
 };
 
 document.addEventListener("DOMContentLoaded", (event) => {
+  checkAuth()
   initMap();
   const button = document.getElementById("save-tasks-button");
   button.addEventListener("click", async () => {

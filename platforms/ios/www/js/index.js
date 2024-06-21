@@ -24,17 +24,44 @@ document.addEventListener('deviceready', onDeviceReady, false);
 
 function onDeviceReady() {
     // Cordova is now initialized. Have fun!
+    
+    // Llamar a fetchUnsyncedData y syncFromServer inicialmente
+    syncLocalToServer(); // Enviar datos locales no sincronizados al servidor
+    syncFromServer(); // Descargar datos actualizados del servidor
+
+    console.log('sync.config.js cargado exitosamente');
+
+    console.log('Configurando la sincronización periódica...');
+    // Configurar la sincronización periódica
+    setInterval(function() {
+        syncLocalToServer();
+        syncFromServer();
+    }, 10000); // Sincronizar cada 10 segundos
 
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
+}
 
-    // // Llamar a fetchUnsyncedData y syncFromServer inicialmente
-    // fetchUnsyncedData(); // Subir datos locales pendientes
-    // syncFromServer(); // Descargar datos actualizados del servidor
+document.addEventListener('init', function(event) {
+  var page = event.target;
 
-    // // Configurar la sincronización periódica
-    // setInterval(function() {
-    //     fetchUnsyncedData();
-    //     syncFromServer();
-    // }, 60000); // Sincroniza cada minuto
+  if (page.id === 'inicio') {
+    page.querySelector('#push-button').onclick = function() {
+      document.querySelector('#myNavigator').pushPage('mapa.html', {data: {title: 'Mapa'}}); // Pasar el título de la página como datos. Y navegar a la página.
+    };
+  } else if (page.id === 'mapa') {
+    page.querySelector('ons-toolbar .center').innerHTML = page.data.title; // Actulizar el título de la página con el título pasado en el evento data.
+  }
+});
+
+const getCurrentDateTime = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
