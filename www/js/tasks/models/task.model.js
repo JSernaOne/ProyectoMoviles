@@ -7,6 +7,8 @@ const initMap = () => {
     zoom: 6,
   });
 
+  // Forzar la carga del mapa al cargar la página
+  window.addEventListener('load', initMap);
   map.addListener("click", function (event) {
     placeMarker(event.latLng);
   });
@@ -69,7 +71,7 @@ async function saveTasks() {
             idGeo: geolocalizacionId,
             iduser: userId,
           });
-          ons.notification.alert("Tarea guardada exitosamente");
+          closeAddTaskPage();
         },
         function (tx, error) {
           console.error("Error al guardar la tarea: " + error.message);
@@ -115,7 +117,6 @@ const getTasksFromDB = (userId) => {
   });
 };
 
-
 const removeTask = (taskId, taskItem) => {
   db.transaction(function (tx) {
     tx.executeSql(
@@ -135,7 +136,9 @@ const removeTask = (taskId, taskItem) => {
 };
 
 document.addEventListener("DOMContentLoaded", (event) => {
-  checkAuth()
+  checkAuth();
+
+
   initMap();
   const button = document.getElementById("save-tasks-button");
   button.addEventListener("click", async () => {

@@ -175,7 +175,7 @@ const updateLocalDatabase = async (serverData) => {
     geolocalizacion.forEach((geo) => {
       tx.executeSql(
         "INSERT OR REPLACE INTO Geolocalizacion (id, latitude, longitude, sync_status, last_sync) VALUES (?, ?, ?, ?, ?)",
-        [geo.id, geo.latitud, geo.longitud, geo.sync_status, geo.last_sync]
+        [geo.id, geo.latitude, geo.longitude, geo.sync_status, geo.last_sync]
       );
     });
   });

@@ -53,24 +53,6 @@ const hashPassword = (password, salt) => {
  *
  *
  */
-// ver usuarios
-const viewUsers = async () => {
-  db.transaction(function (tx) {
-    tx.executeSql("SELECT * FROM User", [], function (tx, res) {
-      const users = document.getElementById("users-list");
-      var items = users.querySelectorAll("ons-list-item");
-      items.forEach(function (item) {
-        item.remove();
-      });
-      for (var i = 0; i < res.rows.length; i++) {
-        var user = res.rows.item(i);
-        var item = document.createElement("ons-list-item");
-        item.innerHTML = "Username: " + user.name + " - Correo: " + user.email;
-        users.appendChild(item);
-      }
-    });
-  });
-};
 
 // iniciar sesión
 const loginUser = async (email, password) => {
@@ -190,9 +172,6 @@ document.addEventListener("init", function (event) {
       (email = page.querySelector("#email").value),
         (password = page.querySelector("#password").value);
       loginUser(email, password);
-    };
-    page.querySelector("#show-users").onclick = function () {
-      viewUsers();
     };
 
     // Página de registro

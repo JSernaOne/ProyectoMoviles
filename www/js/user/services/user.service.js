@@ -8,11 +8,11 @@ const registerUserCloud = async (user) => {
       body: JSON.stringify(user),
     });
     if (response.status === 201) {
-      ons.notification.alert("Usuario registrado exitosamente");
+      console.log("Usuario registrado exitosamente");
     } else if (response.status === 409) {
-      ons.notification.alert("El usuario ya está registrado");
+      console.log("El usuario ya existe");
     } else {
-      ons.notification.alert("Error al registrar el usuario");
+      console.error("Error al registrar el usuario");
     }
   } catch (error) {
     console.error("Error:", error);
@@ -38,15 +38,14 @@ const login = async (user) => {
       window.location.href = "/template/home.html";
       return true;
     } else if (response.status === 401) {
-      ons.notification.alert("Usuario o contraseña incorrectos");
+      console.error("Contraseña incorrecta");
       return false;
     } else {
-      ons.notification.alert("Error al iniciar sesión");
+      console.error("Usuario no encontrado");
       return false;
     }
   } catch (error) {
-    console.error("Error:", error);
-    ons.notification.alert("Error de conexión con el servidor");
+    console.error("Error al iniciar sesión");
     return false;
   }
 };
@@ -63,11 +62,11 @@ const updateUserCloud = async (user) => {
     });
 
     if (response.status === 200) {
-      ons.notification.alert("Usuario actualizado exitosamente");
+      console.log("Usuario actualizado exitosamente");
     } else {
-      ons.notification.alert("Error al actualizar el usuario");
+      console.error("Error al actualizar el usuario");
     }
   } catch (error) {
     console.error("Error:", error);
   }
-}
+};

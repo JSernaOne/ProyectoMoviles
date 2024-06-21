@@ -8,6 +8,8 @@ function initMap() {
         zoom: 6
     });
 
+    // Forzar la carga del mapa al cargar la página
+    window.addEventListener('load', initMap);
     loadTaskMarkers(); // Cargar los marcadores de las tareas almacenadas
 }
 
